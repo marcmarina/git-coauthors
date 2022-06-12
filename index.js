@@ -9,13 +9,10 @@ const git = simpleGit();
 
 const getAuthors = async () => {
   const fullLog = await git.log();
-
   const formattedLog = fullLog.all.map(
     (logEntry) => `${logEntry.author_name} <${logEntry.author_email}>`,
   );
-
-  const unique = _.uniqWith(formattedLog, _.isEqual);
-
+  const unique = _.uniqWith(formattedLog, _.isEqual).sort();
   const sorted = unique.sort((a, b) => a.localeCompare(b));
 
   return sorted;
