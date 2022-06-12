@@ -11,10 +11,17 @@
   },
   "scripts": {
     "authors": "node index.js",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "lint": "eslint . --ext .js",
+    "prepare": "husky install"
   },
   "bin": {
     "git-coauthors": "index.js"
+  },
+  "lint-staged": {
+    "**/*.*(ts|js)": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "clipboardy": "3.0.0",
@@ -26,7 +33,10 @@
   },
   "devDependencies": {
     "eslint": "8.17.0",
-    "jest": "28.1.1"
+    "husky": "^8.0.1",
+    "jest": "28.1.1",
+    "lint-staged": "^13.0.1",
+    "prettier": "^2.6.2"
   },
   "keywords": [
     "git",
