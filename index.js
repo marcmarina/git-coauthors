@@ -14,7 +14,11 @@ const getAuthors = async () => {
     (logEntry) => `${logEntry.author_name} <${logEntry.author_email}>`,
   );
 
-  return _.uniqWith(formattedLog, _.isEqual);
+  const unique = _.uniqWith(formattedLog, _.isEqual);
+
+  const sorted = unique.sort((a, b) => a.localeCompare(b));
+
+  return sorted;
 };
 
 async function choicesSearch(data, input) {
@@ -25,7 +29,27 @@ async function choicesSearch(data, input) {
   return fuzzyResult.map((element) => element.original);
 }
 
+async function validateIsRepo() {
+  try {
+    await git.log();
+
+    return true;
+  } catch (ex) {
+    return false;
+  }
+}
+
 async function main() {
+  const isGitRepo = await validateIsRepo();
+
+  if (!isGitRepo) {
+    console.log(
+      'The current directory is not a git repository. Ending execution.',
+    );
+
+    return;
+  }
+
   inquirer.registerPrompt('checkbox-plus', inqurierCheckboxPlus);
 
   const logAuthors = await getAuthors();
