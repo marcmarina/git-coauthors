@@ -5,7 +5,9 @@
   "license": "MIT",
   "author": "Marc Marina",
   "repository": "https://github.com/marcmarina/gitauthor-cli",
-  "bugs": "https://github.com/marcmarina/gitauthor-cli/issues",
+  "bugs": {
+    "url": "https://github.com/marcmarina/gitauthor-cli/issues"
+  },
   "bin": {
     "git-coauthor": "index.js"
   },
