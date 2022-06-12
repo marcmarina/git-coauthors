@@ -1,8 +1,11 @@
 {
-  "name": "gitautor-cli",
-  "version": "1.0.0",
+  "name": "git-coauthors",
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
+  "bin": {
+    "git-coauthor": "index.js"
+  },
   "dependencies": {
     "clipboardy": "2.3.0",
     "fuzzy": "^0.1.3",

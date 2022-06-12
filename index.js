@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 const inquirer = require('inquirer');
 const inqurierCheckboxPlus = require('inquirer-checkbox-plus-prompt');
 const fuzzy = require('fuzzy');
