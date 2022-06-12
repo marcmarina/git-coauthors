@@ -2,14 +2,19 @@
   "name": "git-coauthors",
   "version": "0.1.1",
   "main": "index.js",
+  "type": "module",
   "license": "MIT",
   "author": "Marc Marina",
   "repository": "https://github.com/marcmarina/gitauthor-cli",
   "bugs": {
     "url": "https://github.com/marcmarina/gitauthor-cli/issues"
   },
+  "scripts": {
+    "authors": "node index.js",
+    "test": "jest --passWithNoTests"
+  },
   "bin": {
-    "git-coauthor": "index.js"
+    "git-coauthors": "index.js"
   },
   "dependencies": {
     "clipboardy": "2.3.0",
@@ -20,7 +25,8 @@
     "simple-git": "^3.7.1"
   },
   "devDependencies": {
-    "eslint": "^8.17.0"
+    "eslint": "^8.17.0",
+    "jest": "^28.1.1"
   },
   "keywords": [
     "git",

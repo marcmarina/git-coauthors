@@ -1,43 +1,11 @@
 #! /usr/bin/env node
-const inquirer = require('inquirer');
-const inqurierCheckboxPlus = require('inquirer-checkbox-plus-prompt');
-const fuzzy = require('fuzzy');
-const clipboardy = require('clipboardy');
-const simpleGit = require('simple-git');
-const _ = require('lodash');
-const git = simpleGit();
+import clipboardy from 'clipboardy';
 
-const getAuthors = async () => {
-  const fullLog = await git.log();
-  const formattedLog = fullLog.all.map(
-    (logEntry) => `${logEntry.author_name} <${logEntry.author_email}>`,
-  );
-  const unique = _.uniqWith(formattedLog, _.isEqual).sort();
-  const sorted = unique.sort((a, b) => a.localeCompare(b));
-
-  return sorted;
-};
-
-async function choicesSearch(data, input) {
-  input = input || '';
-
-  const fuzzyResult = fuzzy.filter(input, data);
-
-  return fuzzyResult.map((element) => element.original);
-}
-
-async function validateIsRepo() {
-  try {
-    await git.log();
-
-    return true;
-  } catch (ex) {
-    return false;
-  }
-}
+import { dirIsRepo, getAuthors } from './helpers/git.js';
+import { authorPrompt } from './helpers/prompt.js';
 
 async function main() {
-  const isGitRepo = await validateIsRepo();
+  const isGitRepo = await dirIsRepo();
 
   if (!isGitRepo) {
     console.log(
@@ -47,23 +15,12 @@ async function main() {
     return;
   }
 
-  inquirer.registerPrompt('checkbox-plus', inqurierCheckboxPlus);
+  const authors = await getAuthors();
 
-  const logAuthors = await getAuthors();
+  const chosenAuthors = await authorPrompt(authors);
 
-  const { authors } = await inquirer.prompt([
-    {
-      type: 'checkbox-plus',
-      message: `Which co-authors do you want to select? (type for autocomplete)`,
-      pageSize: 15,
-      name: 'authors',
-      source: async (_, input) => choicesSearch(logAuthors, input),
-      searchable: true,
-    },
-  ]);
-
-  if (authors?.length) {
-    const formattedAuthors = authors.map(
+  if (chosenAuthors?.length) {
+    const formattedAuthors = chosenAuthors.map(
       (author) => `Co-authored-by: ${author}`,
     );
 
