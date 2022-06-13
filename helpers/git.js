@@ -1,5 +1,5 @@
 import simpleGit from 'simple-git';
-import _ from 'lodash';
+import { getUniqueElements } from '../utils/array.js';
 
 const git = simpleGit();
 
@@ -20,7 +20,8 @@ export async function getAuthors() {
   const formattedLog = fullLog.all.map(
     (logEntry) => `${logEntry.author_name} <${logEntry.author_email}>`,
   );
-  const unique = _.uniqWith(formattedLog, _.isEqual).sort();
+
+  const unique = getUniqueElements(formattedLog);
   const sorted = unique.sort((a, b) => a.localeCompare(b));
 
   return sorted;
