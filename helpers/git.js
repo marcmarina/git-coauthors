@@ -7,13 +7,7 @@ const git = simpleGit();
  * @returns {Promise<boolean>} Whether or not the current directory is a git repository.
  */
 export async function dirIsRepo() {
-  try {
-    await git.log();
-
-    return true;
-  } catch (ex) {
-    return false;
-  }
+  return await git.checkIsRepo();
 }
 
 /**
