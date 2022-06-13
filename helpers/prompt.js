@@ -10,19 +10,33 @@ async function choicesSearch(data, input) {
   return fuzzyResult.map((element) => element.original);
 }
 
-export async function authorPrompt(authors) {
+/**
+ * @typedef {Object} PromptConfig
+ * @property {Number} [pageSize]
+ * @property {String} [message]
+ */
+
+/**
+ * @param {string[]} data List of available options.
+ * @param {PromptConfig} config Prompt config.
+ * @returns {Promise<string[]>} User picked options.
+ */
+export async function checkboxPrompt(
+  data,
+  { pageSize = 10, message = 'Select options' } = {},
+) {
   inquirer.registerPrompt('checkbox-plus', inqurierCheckboxPlus);
 
-  const { chosenAuthors } = await inquirer.prompt([
+  const { choices } = await inquirer.prompt([
     {
       type: 'checkbox-plus',
-      message: `Which co-authors do you want to select? (type for autocomplete)`,
-      pageSize: 10,
-      name: 'chosenAuthors',
-      source: async (_, input) => choicesSearch(authors, input),
+      message: `${message} (type for autocomplete)`,
+      pageSize: pageSize,
+      name: 'choices',
+      source: async (_, input) => choicesSearch(data, input),
       searchable: true,
     },
   ]);
 
-  return chosenAuthors;
+  return choices;
 }
