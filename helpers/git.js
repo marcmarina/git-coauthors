@@ -3,6 +3,9 @@ import _ from 'lodash';
 
 const git = simpleGit();
 
+/**
+ * @returns {Promise<boolean>} Whether or not the current directory is a git repository.
+ */
 export async function dirIsRepo() {
   try {
     await git.log();
@@ -15,7 +18,7 @@ export async function dirIsRepo() {
 
 /**
  * Function that returns a full list of unique author names and emails.
- * @returns Array of authors
+ * @returns {Promise<string[]>} Array of authors
  */
 export async function getAuthors() {
   const fullLog = await git.log();
