@@ -16,6 +16,7 @@ export async function dirIsRepo() {
  */
 export async function getAuthors() {
   const fullLog = await git.log();
+
   const formattedLog = fullLog.all.map(
     (logEntry) => `${logEntry.author_name} <${logEntry.author_email}>`,
   );
