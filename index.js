@@ -1,33 +1,14 @@
 #! /usr/bin/env node
-import clipboardy from 'clipboardy';
+import { program } from 'commander';
 
-import { dirIsRepo, getAuthors } from './helpers/git.js';
-import { checkboxPrompt } from './helpers/prompt.js';
+import config from './helpers/config.js';
+import { pickAuthors } from './helpers/commands.js';
 
-async function main() {
-  const isGitRepo = await dirIsRepo();
+program.version(config().version).description('Git co-author picker');
 
-  if (!isGitRepo) {
-    console.log(
-      'The current directory is not a git repository. Ending execution.',
-    );
+program
+  .command('pick-authors', { isDefault: true })
+  .description('Pick co-authors from a list')
+  .action(pickAuthors);
 
-    return;
-  }
-
-  const authors = await getAuthors();
-
-  const chosenAuthors = await checkboxPrompt(authors, {
-    message: 'Which co-authors do you want to select?',
-  });
-
-  if (chosenAuthors?.length) {
-    const formattedAuthors = chosenAuthors.map(
-      (author) => `Co-authored-by: ${author}`,
-    );
-
-    clipboardy.writeSync(formattedAuthors.join('\n'));
-  }
-}
-
-main();
+program.parse();
