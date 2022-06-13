@@ -5,8 +5,6 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-console.log(__dirname);
-
 function getPackageJson() {
   const data = fs.readFileSync(
     path.resolve(__dirname, '..', 'package.json'),
