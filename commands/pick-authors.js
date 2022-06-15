@@ -1,8 +1,8 @@
 import clipboardy from 'clipboardy';
-import { dirIsRepo, getAuthors } from './git.js';
-import { checkboxPrompt } from './prompt.js';
+import { dirIsRepo, getAuthors } from '../helpers/git.js';
+import { checkboxPrompt } from '../helpers/prompt.js';
 
-export async function pickAuthors() {
+async function pickAuthors() {
   const isGitRepo = await dirIsRepo();
 
   if (!isGitRepo) {
@@ -27,3 +27,5 @@ export async function pickAuthors() {
     clipboardy.writeSync(formattedAuthors.join('\n'));
   }
 }
+
+export default pickAuthors;
