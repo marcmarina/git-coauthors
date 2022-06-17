@@ -32,8 +32,8 @@
     "simple-git": "^3.7.1"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.18.2",
-    "@types/jest": "^28.1.1",
+    "@babel/plugin-transform-modules-commonjs": "7.18.2",
+    "@types/jest": "28.1.1",
     "eslint": "8.17.0",
     "husky": "8.0.1",
     "jest": "28.1.1",
