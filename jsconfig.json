@@ -3,6 +3,7 @@
     "checkJs": true,
     "target": "es6",
     "module": "esnext",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "resolveJsonModule": true
   }
 }

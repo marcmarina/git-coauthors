@@ -1,21 +1,9 @@
-import fs from 'fs';
-import path from 'path';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-function getPackageJson() {
-  const data = fs.readFileSync(
-    path.resolve(__dirname, '..', 'package.json'),
-    'utf-8',
-  );
-
-  return JSON.parse(data);
-}
+const require = createRequire(import.meta.url);
 
 export default function config() {
-  const packageJson = getPackageJson();
+  const packageJson = require('../package.json');
 
   return {
     version: packageJson.version,
