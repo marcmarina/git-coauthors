@@ -4,7 +4,7 @@ import { program } from 'commander';
 import config from './helpers/config.js';
 import pickAuthors from './commands/pick-authors.js';
 
-program.version(config().version).description('Git co-author picker');
+program.version(config.version).description('Git co-author picker');
 
 program
   .command('pick-authors', { isDefault: true })

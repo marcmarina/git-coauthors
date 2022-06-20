@@ -2,10 +2,10 @@ import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
 
-export default function config() {
-  const packageJson = require('../package.json');
+const packageJson = require('../package.json');
 
-  return {
-    version: packageJson.version,
-  };
-}
+const config = {
+  version: packageJson.version,
+};
+
+export default config;
