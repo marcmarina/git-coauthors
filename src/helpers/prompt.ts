@@ -2,7 +2,7 @@ import inquirer from 'inquirer';
 import inqurierCheckboxPlus from 'inquirer-checkbox-plus-prompt';
 import fuzzy from 'fuzzy';
 
-async function choicesSearch(data, input) {
+async function choicesSearch(data: string[], input: string): Promise<string[]> {
   input = input || '';
 
   const fuzzyResult = fuzzy.filter(input, data);
@@ -10,21 +10,20 @@ async function choicesSearch(data, input) {
   return fuzzyResult.map((element) => element.original);
 }
 
-/**
- * @typedef {Object} PromptConfig
- * @property {Number} [pageSize]
- * @property {String} [message]
- */
+type PromptConfig = {
+  pageSize?: number;
+  message?: string;
+};
 
 /**
- * @param {string[]} data List of available options.
- * @param {PromptConfig} config Prompt config.
- * @returns {Promise<string[]>} User picked options.
+ * @param data List of available options.
+ * @param config Prompt config.
+ * @returns User picked options.
  */
 export async function checkboxPrompt(
-  data,
-  { pageSize = 10, message = 'Select options' } = {},
-) {
+  data: string[],
+  { pageSize = 10, message = 'Select options' }: PromptConfig = {},
+): Promise<string[]> {
   inquirer.registerPrompt('checkbox-plus', inqurierCheckboxPlus);
 
   const { choices } = await inquirer.prompt([
@@ -33,7 +32,7 @@ export async function checkboxPrompt(
       message: `${message} (type for autocomplete)`,
       pageSize: pageSize,
       name: 'choices',
-      source: async (_, input) => choicesSearch(data, input),
+      source: async (_: any, input: string) => choicesSearch(data, input),
       searchable: true,
     },
   ]);

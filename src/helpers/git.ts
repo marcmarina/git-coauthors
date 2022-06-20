@@ -1,20 +1,19 @@
 import simpleGit from 'simple-git';
-import { getUniqueElements } from '../utils/array.js';
+import { getUniqueElements } from '../utils/array';
 
 const git = simpleGit();
 
 /**
- * @returns {Promise<boolean>} Whether or not the current directory is a git repository.
+ * Function that returns whether or not the current directory is a git repository.
  */
-export async function dirIsRepo() {
+export async function dirIsRepo(): Promise<boolean> {
   return await git.checkIsRepo();
 }
 
 /**
  * Function that returns a full list of unique author names and emails.
- * @returns {Promise<string[]>} Array of authors
  */
-export async function getAuthors() {
+export async function getAuthors(): Promise<string[]> {
   const fullLog = await git.log();
 
   const formattedLog = fullLog.all.map(
