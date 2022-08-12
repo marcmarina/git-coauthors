@@ -24,7 +24,12 @@ async function pickAuthors() {
       (author) => `Co-authored-by: ${author}`,
     );
 
-    clipboardy.writeSync(formattedAuthors.join('\n'));
+    try {
+      clipboardy.writeSync(formattedAuthors.join('\n'));
+      console.log(formattedAuthors.join('\n'));
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
 
