@@ -6,9 +6,7 @@ async function pickAuthors() {
   const isGitRepo = await dirIsRepo();
 
   if (!isGitRepo) {
-    console.log(
-      'The current directory is not a git repository. Ending execution.',
-    );
+    console.log('The current directory is not a git repository.');
 
     return;
   }
