@@ -23,7 +23,7 @@ async function pickAuthors() {
     );
 
     try {
-      clipboardy.writeSync(formattedAuthors.join('\n'));
+      clipboardy.writeSync('\n' + formattedAuthors.join('\n'));
       console.log(formattedAuthors.join('\n'));
     } catch (err) {
       console.log(err);
