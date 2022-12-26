@@ -12,6 +12,7 @@
   "license": "MIT",
   "author": "Marc Marina",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
     "git-coauthors": "dist/index.js"
   },
@@ -20,6 +21,7 @@
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install",
+    "prepublish": "yarn build",
     "test": "jest --passWithNoTests",
     "verify": "yarn build --noEmit && yarn lint && yarn test"
   },
