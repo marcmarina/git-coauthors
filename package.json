@@ -11,15 +11,17 @@
   "repository": "https://github.com/marcmarina/gitauthor-cli",
   "license": "MIT",
   "author": "Marc Marina",
-  "main": "index.js",
+  "main": "dist/index.js",
   "bin": {
-    "git-coauthors": "index.js"
+    "git-coauthors": "dist/index.js"
   },
   "scripts": {
-    "authors": "node index.js",
+    "authors": "ts-node src/index.ts",
+    "build": "tsc",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "verify": "yarn build --noEmit && yarn lint && yarn test"
   },
   "dependencies": {
     "clipboardy": "^2.0.0",
@@ -45,7 +47,6 @@
     "sort-package-json": "^2.1.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
-    "tsc": "^2.0.4",
     "typescript": "^4.9.4"
   }
 }
