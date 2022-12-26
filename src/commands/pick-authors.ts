@@ -3,7 +3,11 @@ import clipboardy from 'clipboardy';
 import { dirIsRepo, getAuthors } from '../helpers/git';
 import { checkboxPrompt } from '../helpers/prompt';
 
-async function pickAuthors(): Promise<void> {
+type Options = {
+  outputAuthors: boolean;
+};
+
+async function pickAuthors({ outputAuthors }: Options): Promise<void> {
   const isGitRepo = await dirIsRepo();
 
   if (!isGitRepo) {
@@ -23,9 +27,12 @@ async function pickAuthors(): Promise<void> {
       (author) => `Co-authored-by: ${author}`,
     );
 
-    try {
-      clipboardy.writeSync('\n' + formattedAuthors.join('\n'));
+    if (outputAuthors) {
       console.log(formattedAuthors.join('\n'));
+    }
+
+    try {
+      await clipboardy.write('\n' + formattedAuthors.join('\n'));
     } catch (err) {
       console.log(err);
     }

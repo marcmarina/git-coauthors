@@ -11,6 +11,11 @@ program
   .description(
     'Pick co-authors from a list and add them to your clipboard (e.g. Co-authored-by: John Doe <jdoe@example.com>).',
   )
+  .option(
+    '-o, --output-authors',
+    'Output the chosen authors to the console',
+    false,
+  )
   .action(pickAuthors);
 
-program.parse();
+program.parse(process.argv);
