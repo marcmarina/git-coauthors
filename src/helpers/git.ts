@@ -1,13 +1,11 @@
 import _ from 'lodash';
 import { simpleGit } from 'simple-git';
 
-const git = simpleGit();
-
 /**
  * @returns {Promise<boolean>} Whether or not the current directory is a git repository.
  */
 export async function dirIsRepo() {
-  return await git.checkIsRepo();
+  return await simpleGit().checkIsRepo();
 }
 
 /**
@@ -15,7 +13,7 @@ export async function dirIsRepo() {
  * @returns {Promise<string[]>} Array of authors
  */
 export async function getAuthors() {
-  const fullLog = await git.log();
+  const fullLog = await simpleGit().log();
 
   const formattedLog = fullLog.all.map(
     (logEntry) => `${logEntry.author_name} <${logEntry.author_email}>`,
