@@ -2,7 +2,7 @@ import inquirer from 'inquirer';
 import inqurierCheckboxPlus from 'inquirer-checkbox-plus-prompt';
 import fuzzy from 'fuzzy';
 
-async function choicesSearch(data, input) {
+async function choicesSearch(data: string[], input: string | null) {
   input = input || '';
 
   const fuzzyResult = fuzzy.filter(input, data);
@@ -22,7 +22,7 @@ async function choicesSearch(data, input) {
  * @returns {Promise<string[]>} User picked options.
  */
 export async function checkboxPrompt(
-  data,
+  data: string[],
   { pageSize = 10, message = 'Select options' } = {},
 ) {
   inquirer.registerPrompt('checkbox-plus', inqurierCheckboxPlus);

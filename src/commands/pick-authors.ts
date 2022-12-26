@@ -1,6 +1,6 @@
 import clipboardy from 'clipboardy';
-import { dirIsRepo, getAuthors } from '../helpers/git.js';
-import { checkboxPrompt } from '../helpers/prompt.js';
+import { dirIsRepo, getAuthors } from '../helpers/git';
+import { checkboxPrompt } from '../helpers/prompt';
 
 async function pickAuthors() {
   const isGitRepo = await dirIsRepo();
