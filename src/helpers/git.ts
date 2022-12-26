@@ -1,5 +1,5 @@
-import simpleGit from 'simple-git';
 import _ from 'lodash';
+import { simpleGit } from 'simple-git';
 
 const git = simpleGit();
 

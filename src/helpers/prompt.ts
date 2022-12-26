@@ -1,6 +1,6 @@
+import fuzzy from 'fuzzy';
 import inquirer from 'inquirer';
 import inqurierCheckboxPlus from 'inquirer-checkbox-plus-prompt';
-import fuzzy from 'fuzzy';
 
 async function choicesSearch(data: string[], input: string | null) {
   input = input || '';
