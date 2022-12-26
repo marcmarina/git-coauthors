@@ -3,7 +3,7 @@ import clipboardy from 'clipboardy';
 import { dirIsRepo, getAuthors } from '../helpers/git';
 import { checkboxPrompt } from '../helpers/prompt';
 
-async function pickAuthors() {
+async function pickAuthors(): Promise<void> {
   const isGitRepo = await dirIsRepo();
 
   if (!isGitRepo) {

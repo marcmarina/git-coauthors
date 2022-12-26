@@ -1,6 +1,10 @@
 const packageJson = require('../../package.json');
 
-const config = {
+type Config = {
+  version: string;
+};
+
+const config: Config = {
   version: packageJson.version,
 };
 
