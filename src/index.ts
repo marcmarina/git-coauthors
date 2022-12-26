@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 import { program } from 'commander';
 
-import config from './helpers/config.js';
-import pickAuthors from './commands/pick-authors.js';
+import pickAuthors from './commands/pick-authors';
+import config from './helpers/config';
 
 program.version(config.version).description('Git co-author picker');
 

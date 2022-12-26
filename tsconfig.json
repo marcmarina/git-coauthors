@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "target": "es6",
+    "module": "commonjs",
+    "lib": ["dom", "es2018"],
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "useUnknownInCatchVariables": false
+  },
+  "include": ["src"]
+}

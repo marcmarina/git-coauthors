@@ -1,5 +1,4 @@
 {
-  "**/*.*(ts|js)": [
-    "prettier --write"
-  ]
+  "**/*.*(ts|js)": ["prettier --write"],
+  "package.json": ["sort-package-json"]
 }

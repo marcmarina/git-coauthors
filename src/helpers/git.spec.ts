@@ -1,6 +1,10 @@
+import { simpleGit } from 'simple-git';
+
 import { getAuthors } from './git';
 
-const mockedLog = jest.fn();
+jest.mock('simple-git');
+
+const mockedGit = simpleGit as jest.Mock;
 
 const SAMPLE_LOG = {
   all: [
@@ -31,19 +35,15 @@ const SAMPLE_LOG = {
   ],
 };
 
-jest.mock('simple-git', () => {
-  return () => ({
-    log: () => mockedLog(),
-  });
-});
-
 describe('getAuthors', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('it should return a list of sorted unique authors', async () => {
-    mockedLog.mockResolvedValue(SAMPLE_LOG);
+    mockedGit.mockReturnValue({
+      log: () => SAMPLE_LOG,
+    });
 
     await expect(getAuthors()).resolves.toStrictEqual([
       'Dalinar Kholin <dalinar@kholin.com>',
