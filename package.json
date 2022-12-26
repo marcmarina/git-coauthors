@@ -17,10 +17,10 @@
     "git-coauthors": "dist/index.js"
   },
   "scripts": {
-    "authors": "ts-node src/index.ts",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install && yarn build",
+    "start": "ts-node src/index.ts",
     "test": "jest --passWithNoTests",
     "verify": "yarn build --noEmit && yarn lint && yarn test"
   },
