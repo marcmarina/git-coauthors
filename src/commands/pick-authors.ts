@@ -3,11 +3,13 @@ import clipboardy from 'clipboardy';
 import { dirIsRepo, getAuthors } from '../helpers/git';
 import { checkboxPrompt } from '../helpers/prompt';
 
-type Options = {
+async function pickAuthors({
+  outputAuthors,
+  sort,
+}: {
   outputAuthors: boolean;
-};
-
-async function pickAuthors({ outputAuthors }: Options): Promise<void> {
+  sort: boolean;
+}): Promise<void> {
   const isGitRepo = await dirIsRepo();
 
   if (!isGitRepo) {
@@ -16,7 +18,7 @@ async function pickAuthors({ outputAuthors }: Options): Promise<void> {
     return;
   }
 
-  const authors = await getAuthors();
+  const authors = await getAuthors({ sort });
 
   const chosenAuthors = await checkboxPrompt(authors, {
     message: 'Which co-authors do you want to select?',

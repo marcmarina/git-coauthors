@@ -14,7 +14,8 @@ program
     '-o, --output-authors',
     'Output the chosen authors to the console',
     false,
-  );
+  )
+  .option('-s, --sort', 'Sort the authors alphabetically', false);
 
 program.parse(process.argv);
 
@@ -22,4 +23,5 @@ const options = program.opts();
 
 pickAuthors({
   outputAuthors: options.outputAuthors,
+  sort: options.sort,
 });

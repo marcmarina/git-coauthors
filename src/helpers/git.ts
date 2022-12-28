@@ -12,7 +12,11 @@ export async function dirIsRepo(): Promise<boolean> {
  * Function that returns a full list of unique author names and emails.
  * @returns Array of authors
  */
-export async function getAuthors(): Promise<string[]> {
+export async function getAuthors({
+  sort = false,
+}: {
+  sort: boolean;
+}): Promise<string[]> {
   const fullLog = await simpleGit().log();
 
   const formattedLog = fullLog.all.map(
@@ -20,7 +24,8 @@ export async function getAuthors(): Promise<string[]> {
   );
 
   const unique = _.uniq(formattedLog);
-  const sorted = unique.sort((a, b) => a.localeCompare(b));
 
-  return sorted;
+  if (!sort) return unique;
+
+  return unique.sort((a, b) => a.localeCompare(b));
 }
