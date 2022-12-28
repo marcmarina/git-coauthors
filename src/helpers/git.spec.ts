@@ -45,7 +45,7 @@ describe('getAuthors', () => {
       log: () => SAMPLE_LOG,
     });
 
-    await expect(getAuthors({ sort: true })).resolves.toStrictEqual([
+    await expect(getAuthors()).resolves.toStrictEqual([
       'Dalinar Kholin <dalinar@kholin.com>',
       'Hoid <hoid@cosmere.com>',
       'Kaladin Stormblessed <kaladin@stormblessed.com>',
