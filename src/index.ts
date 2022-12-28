@@ -10,11 +10,7 @@ program
     'Pick co-authors from a list and add them to your clipboard (e.g. Co-authored-by: John Doe <jdoe@example.com>).',
   )
   .addHelpCommand()
-  .option(
-    '-o, --output-authors',
-    'Output the chosen authors to the console',
-    false,
-  )
+  .option('-p, --print', 'Print the chosen authors to the console', false)
   .option('-s, --sort', 'Sort the authors alphabetically', false);
 
 program.parse(process.argv);
@@ -22,6 +18,6 @@ program.parse(process.argv);
 const options = program.opts();
 
 pickAuthors({
-  outputAuthors: options.outputAuthors,
+  print: options.print,
   sort: options.sort,
 });

@@ -4,10 +4,10 @@ import { dirIsRepo, getAuthors } from '../helpers/git';
 import { checkboxPrompt } from '../helpers/prompt';
 
 async function pickAuthors({
-  outputAuthors,
+  print,
   sort,
 }: {
-  outputAuthors: boolean;
+  print: boolean;
   sort: boolean;
 }): Promise<void> {
   const isGitRepo = await dirIsRepo();
@@ -29,7 +29,7 @@ async function pickAuthors({
       (author) => `Co-authored-by: ${author}`,
     );
 
-    if (outputAuthors) {
+    if (print) {
       console.log(formattedAuthors.join('\n'));
     }
 
