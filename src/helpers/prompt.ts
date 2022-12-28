@@ -13,7 +13,7 @@ type PromptConfig = {
 export async function checkboxPrompt(
   data: string[],
   { message = 'Select options' }: PromptConfig,
-) {
+): Promise<string[]> {
   const { choices } = await prompts({
     type: 'autocompleteMultiselect',
     name: 'choices',

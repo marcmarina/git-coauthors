@@ -13,10 +13,12 @@ program
   )
   .option('-p, --print', 'Print the chosen authors to the console', false)
   .addOption(
-    new Option(
-      '-s, --sort <by>',
-      'Sort the authors by the given criteria',
-    ).choices(['alphabetical', 'commits']),
+    new Option('-s, --sort <by>', 'Sort by').choices(['name', 'commits']),
+  )
+  .addOption(
+    new Option('-o, --order <by>', 'Order by')
+      .choices(['asc', 'desc'])
+      .default('asc'),
   )
   .action(pickAuthors);
 

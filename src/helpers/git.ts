@@ -1,9 +1,6 @@
 import { simpleGit } from 'simple-git';
 
-export type Author = {
-  author: string;
-  commits: number;
-};
+import { Author } from '../application';
 
 /**
  * @returns  Whether or not the current directory is a git repository.
@@ -17,25 +14,42 @@ export async function dirIsRepo(): Promise<boolean> {
  * @returns Array of authors
  */
 export async function getAuthors(): Promise<Author[]> {
+  const authors = await getAllAuthors();
+
+  const authorsWithCommitCount = getAuthorsWithCommitCount(authors);
+
+  return authorsWithCommitCount;
+}
+
+async function getAllAuthors() {
   const fullLog = await simpleGit().log();
 
-  const formattedLog = fullLog.all.reduce((acc, logEntry) => {
-    const author = `${logEntry.author_name} <${logEntry.author_email}>`;
-
-    if (acc[author]) {
-      acc[author] += 1;
-    } else {
-      acc[author] = 1;
-    }
-
-    return acc;
-  }, {});
-
-  const authors: Author[] = [];
-
-  for (const [key, value] of Object.entries(formattedLog)) {
-    authors.push({ author: key, commits: value as number });
-  }
+  const authors = fullLog.all.map((commit) => ({
+    name: commit.author_name,
+    email: commit.author_email,
+  }));
 
   return authors;
+}
+
+function getAuthorsWithCommitCount(
+  authors: { name: string; email: string }[],
+): Author[] {
+  const uniqueAuthors = authors.reduce((acc, author) => {
+    const authorString = JSON.stringify(author);
+
+    if (!acc[authorString]) {
+      acc[authorString] = {
+        ...author,
+        commits: 0,
+      };
+    }
+
+    acc[authorString].commits++;
+
+    return acc;
+  }, {} as Record<string, Author>);
+
+  const uniqueAuthorsArray = Object.values(uniqueAuthors);
+  return uniqueAuthorsArray;
 }
