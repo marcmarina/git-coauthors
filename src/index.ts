@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 import { Option, program } from 'commander';
 
-import pickAuthors from './commands/pick-authors';
-import config from './helpers/config';
+import { pickAuthors } from './commands';
+import { config } from './helpers';
 
 program.version(config.version).description('Git co-author picker.');
 
@@ -13,9 +13,10 @@ program
   )
   .option('-p, --print', 'Print the chosen authors to the console', false)
   .addOption(
-    new Option('-s, --sort <by>', 'Sort the authors by the given criteria')
-      .choices(['alphabetical', 'commits', 'recent'])
-      .default('recent'),
+    new Option(
+      '-s, --sort <by>',
+      'Sort the authors by the given criteria',
+    ).choices(['alphabetical', 'commits']),
   )
   .action(pickAuthors);
 

@@ -1,12 +1,12 @@
 import clipboardy from 'clipboardy';
 import z from 'zod';
 
-import { Author, dirIsRepo, getAuthors } from '../helpers/git';
-import { checkboxPrompt } from '../helpers/prompt';
+import { Author, dirIsRepo, getAuthors, checkboxPrompt } from '../helpers';
+import { sortBy } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),
-  sort: z.enum(['commits', 'recent', 'alphabetical']),
+  sort: z.enum(['commits', 'alphabetical']).optional(),
 });
 
 type Options = z.infer<typeof pickAuthorsOptionsSchema>;
@@ -23,7 +23,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
   }
 
   const authors = await getAuthors();
-  const sortedAuthors = sortBy(sort, authors);
+  const sortedAuthors = sortByField(sort, authors);
 
   const chosenAuthors = await checkboxPrompt(sortedAuthors, {
     message: 'Which co-authors do you want to select?',
@@ -46,15 +46,13 @@ export default async function pickAuthors(options: Options): Promise<void> {
   }
 }
 
-function sortBy(sort: Options['sort'], authors: Author[]): string[] {
+function sortByField(sort: Options['sort'], authors: Author[]): string[] {
   switch (sort) {
     case 'commits':
-      return authors.sort((a, b) => b.commits - a.commits).map((a) => a.author);
-    case 'recent':
-      return authors.map((a) => a.author);
+      return sortBy(authors, 'commits', 'desc').map((a) => a.author);
     case 'alphabetical':
-      return authors
-        .sort((a, b) => a.author.localeCompare(b.author))
-        .map((a) => a.author);
+      return sortBy(authors, 'author').map((a) => a.author);
+    default:
+      return authors.map((a) => a.author);
   }
 }

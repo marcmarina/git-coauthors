@@ -4,8 +4,6 @@ type Config = {
   version: string;
 };
 
-const config: Config = {
+export const config: Config = {
   version: packageJson.version,
 };
-
-export default config;

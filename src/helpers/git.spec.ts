@@ -46,9 +46,18 @@ describe('getAuthors', () => {
     });
 
     await expect(getAuthors()).resolves.toStrictEqual([
-      'Dalinar Kholin <dalinar@kholin.com>',
-      'Hoid <hoid@cosmere.com>',
-      'Kaladin Stormblessed <kaladin@stormblessed.com>',
+      {
+        author: 'Kaladin Stormblessed <kaladin@stormblessed.com>',
+        commits: 2,
+      },
+      {
+        author: 'Hoid <hoid@cosmere.com>',
+        commits: 3,
+      },
+      {
+        author: 'Dalinar Kholin <dalinar@kholin.com>',
+        commits: 1,
+      },
     ]);
   });
 });
