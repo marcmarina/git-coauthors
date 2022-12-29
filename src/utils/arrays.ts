@@ -1,5 +1,11 @@
 import _ from 'lodash';
 
+/**
+ * @param arr Array to sort
+ * @param property Property to sort by
+ * @param order Order of the sorting
+ * @returns The sorted array
+ */
 export function sortBy<T>(
   arr: T[],
   property: keyof T,
