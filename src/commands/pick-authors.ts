@@ -13,15 +13,22 @@ const pickAuthorsOptionsSchema = z.object({
   sort: z.enum(['name', 'email']).optional(),
   order: z.enum(['asc', 'desc']),
   limit: z.number().optional(),
+  recents: z.string(),
 });
 type Options = z.infer<typeof pickAuthorsOptionsSchema>;
 
 export default async function pickAuthors(options: Options): Promise<void> {
   await assertDirIsRepo();
 
-  const { print, sort, order, limit } = pickAuthorsOptionsSchema.parse(options);
+  const {
+    print,
+    sort,
+    order,
+    limit,
+    recents: recentsFilename,
+  } = pickAuthorsOptionsSchema.parse(options);
 
-  const recents = await getRecentAuthors();
+  const recents = await getRecentAuthors(recentsFilename);
 
   const authors = await getAuthors({ sort, order, recents, limit });
 
@@ -36,7 +43,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
   if (!chosenAuthors?.length) return;
 
   const combinedAuthors = await combineRecentAuthors(chosenAuthors, recents);
-  await storeRecentAuthors(combinedAuthors);
+  await storeRecentAuthors(combinedAuthors, recentsFilename);
 
   const formattedAuthors = chosenAuthors.map(toCoauthor).join('\n');
 
@@ -51,9 +58,9 @@ export default async function pickAuthors(options: Options): Promise<void> {
   }
 }
 
-async function getRecentAuthors(): Promise<Author[]> {
+async function getRecentAuthors(filename: string): Promise<Author[]> {
   try {
-    const filePath = path.join(process.cwd(), '.coauthors');
+    const filePath = path.join(process.cwd(), filename);
     const fileData = await fs.readFile(filePath, 'utf-8');
 
     return JSON.parse(fileData);
@@ -73,8 +80,11 @@ async function combineRecentAuthors(
   return unique;
 }
 
-async function storeRecentAuthors(authors: Author[]): Promise<void> {
-  const filePath = path.join(process.cwd(), '.coauthors');
+async function storeRecentAuthors(
+  authors: Author[],
+  filename: string,
+): Promise<void> {
+  const filePath = path.join(process.cwd(), filename);
   const data = JSON.stringify(authors, null, 2);
 
   await fs.writeFile(filePath, data);
