@@ -1,11 +1,16 @@
-import _ from 'lodash';
 import { simpleGit } from 'simple-git';
 
+import { Author } from '../application';
+import { sortBy } from '../utils';
+
 /**
- * @returns  Whether or not the current directory is a git repository.
+ * Function that checks if the current directory is a git repository. If not, it exits the process.
  */
-export async function dirIsRepo(): Promise<boolean> {
-  return await simpleGit().checkIsRepo();
+export async function assertDirIsRepo(): Promise<void> {
+  if (!(await simpleGit().checkIsRepo())) {
+    console.log('The current directory is not a git repository.');
+    process.exit(0);
+  }
 }
 
 /**
@@ -13,19 +18,52 @@ export async function dirIsRepo(): Promise<boolean> {
  * @returns Array of authors
  */
 export async function getAuthors({
-  sort = false,
+  sort,
+  order,
 }: {
-  sort: boolean;
-}): Promise<string[]> {
+  sort?: keyof Author;
+  order?: 'asc' | 'desc';
+} = {}): Promise<Author[]> {
+  const authors = await getAllAuthors();
+
+  const authorsWithCommitCount = getAuthorsWithCommitCount(authors);
+
+  if (sort) {
+    return sortBy(authorsWithCommitCount, sort, order);
+  }
+
+  return authorsWithCommitCount;
+}
+
+async function getAllAuthors() {
   const fullLog = await simpleGit().log();
 
-  const formattedLog = fullLog.all.map(
-    (logEntry) => `${logEntry.author_name} <${logEntry.author_email}>`,
-  );
+  const authors = fullLog.all.map((commit) => ({
+    name: commit.author_name,
+    email: commit.author_email,
+  }));
 
-  const unique = _.uniq(formattedLog);
+  return authors;
+}
 
-  if (!sort) return unique;
+function getAuthorsWithCommitCount(
+  authors: { name: string; email: string }[],
+): Author[] {
+  const uniqueAuthors = authors.reduce((acc, author) => {
+    const authorString = JSON.stringify(author);
 
-  return unique.sort((a, b) => a.localeCompare(b));
+    if (!acc[authorString]) {
+      acc[authorString] = {
+        ...author,
+        commits: 0,
+      };
+    }
+
+    acc[authorString].commits++;
+
+    return acc;
+  }, {} as Record<string, Author>);
+
+  const uniqueAuthorsArray = Object.values(uniqueAuthors);
+  return uniqueAuthorsArray;
 }

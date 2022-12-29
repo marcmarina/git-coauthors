@@ -1,44 +1,42 @@
 import clipboardy from 'clipboardy';
+import z from 'zod';
 
-import { dirIsRepo, getAuthors } from '../helpers/git';
-import { checkboxPrompt } from '../helpers/prompt';
+import { toCoauthor } from '../application';
+import { assertDirIsRepo, getAuthors, checkboxPrompt } from '../helpers';
 
-async function pickAuthors({
-  print,
-  sort,
-}: {
-  print: boolean;
-  sort: boolean;
-}): Promise<void> {
-  const isGitRepo = await dirIsRepo();
+const pickAuthorsOptionsSchema = z.object({
+  print: z.boolean(),
+  sort: z.enum(['commits', 'name', 'email']).optional(),
+  order: z.enum(['asc', 'desc']),
+});
+type Options = z.infer<typeof pickAuthorsOptionsSchema>;
 
-  if (!isGitRepo) {
-    console.log('The current directory is not a git repository.');
+export default async function pickAuthors(options: Options): Promise<void> {
+  await assertDirIsRepo();
 
-    return;
-  }
+  const { print, sort, order } = pickAuthorsOptionsSchema.parse(options);
 
-  const authors = await getAuthors({ sort });
+  const authors = await getAuthors({ sort, order });
 
   const chosenAuthors = await checkboxPrompt(authors, {
     message: 'Which co-authors do you want to select?',
+    toChoice: (author) => ({
+      title: `${author.name} <${author.email}>`,
+      value: author,
+    }),
   });
 
-  if (chosenAuthors?.length) {
-    const formattedAuthors = chosenAuthors.map(
-      (author) => `Co-authored-by: ${author}`,
-    );
+  if (!chosenAuthors?.length) return;
 
-    if (print) {
-      console.log(formattedAuthors.join('\n'));
-    }
+  const formattedAuthors = chosenAuthors.map(toCoauthor).join('\n');
 
-    try {
-      await clipboardy.write('\n' + formattedAuthors.join('\n'));
-    } catch (err) {
-      console.log(err);
-    }
+  if (print) {
+    console.log(formattedAuthors);
+  }
+
+  try {
+    await clipboardy.write('\n' + formattedAuthors);
+  } catch (err) {
+    console.log(err);
   }
 }
-
-export default pickAuthors;
