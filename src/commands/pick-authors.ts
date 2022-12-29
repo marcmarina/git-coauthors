@@ -12,17 +12,18 @@ const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),
   sort: z.enum(['name', 'email']).optional(),
   order: z.enum(['asc', 'desc']),
+  limit: z.number().optional(),
 });
 type Options = z.infer<typeof pickAuthorsOptionsSchema>;
 
 export default async function pickAuthors(options: Options): Promise<void> {
   await assertDirIsRepo();
 
-  const { print, sort, order } = pickAuthorsOptionsSchema.parse(options);
+  const { print, sort, order, limit } = pickAuthorsOptionsSchema.parse(options);
 
   const recents = await getRecentAuthors();
 
-  const authors = await getAuthors({ sort, order, recents });
+  const authors = await getAuthors({ sort, order, recents, limit });
 
   const chosenAuthors = await checkboxPrompt(authors, {
     message: 'Which co-authors do you want to select?',

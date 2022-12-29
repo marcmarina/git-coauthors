@@ -22,12 +22,14 @@ export async function getAuthors({
   sort = undefined,
   order = 'asc',
   recents = [],
+  limit,
 }: {
   sort?: keyof Author;
   order?: 'asc' | 'desc';
   recents?: Author[];
+  limit?: number;
 } = {}): Promise<Author[]> {
-  const authors = await getAllAuthors();
+  const authors = await getAllAuthors(limit);
   const unique = _.uniqWith(authors, _.isEqual);
 
   if (sort) {
@@ -39,8 +41,10 @@ export async function getAuthors({
   }
 }
 
-async function getAllAuthors(): Promise<Author[]> {
-  const fullLog = await simpleGit().log();
+async function getAllAuthors(limit?: number): Promise<Author[]> {
+  const fullLog = await simpleGit().log({
+    maxCount: limit,
+  });
 
   const authors = fullLog.all.map((commit) => ({
     name: commit.author_name,

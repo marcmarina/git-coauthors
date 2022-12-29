@@ -25,6 +25,11 @@ program
       .choices(['asc', 'desc'])
       .default('asc'),
   )
+  .option(
+    '-l, --limit <number>',
+    'Limit the number of commits to fetch. Useful for repos with a large history.',
+    parseInt,
+  )
   .action(pickAuthors);
 
 program.parse(process.argv);
