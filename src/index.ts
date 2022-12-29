@@ -14,11 +14,7 @@ program
   )
   .option('-p, --print', 'Print the chosen authors to the console', false)
   .addOption(
-    new Option('-s, --sort <by>', 'Sort by').choices([
-      'email',
-      'name',
-      'commits',
-    ]),
+    new Option('-s, --sort <by>', 'Sort by').choices(['email', 'name']),
   )
   .addOption(
     new Option('-o, --order <by>', 'Order by')
