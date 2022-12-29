@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { simpleGit } from 'simple-git';
 
 import { Author } from '../application';
@@ -18,24 +19,27 @@ export async function assertDirIsRepo(): Promise<void> {
  * @returns Array of authors
  */
 export async function getAuthors({
-  sort,
-  order,
+  sort = undefined,
+  order = 'asc',
+  recents = [],
 }: {
   sort?: keyof Author;
   order?: 'asc' | 'desc';
+  recents?: Author[];
 } = {}): Promise<Author[]> {
   const authors = await getAllAuthors();
-
-  const authorsWithCommitCount = getAuthorsWithCommitCount(authors);
+  const unique = _.uniqWith(authors, _.isEqual);
 
   if (sort) {
-    return sortBy(authorsWithCommitCount, sort, order);
-  }
+    return sortBy(unique, sort, order);
+  } else {
+    const combinedAuthors = [...recents, ...unique];
 
-  return authorsWithCommitCount;
+    return _.uniqWith(combinedAuthors, _.isEqual);
+  }
 }
 
-async function getAllAuthors() {
+async function getAllAuthors(): Promise<Author[]> {
   const fullLog = await simpleGit().log();
 
   const authors = fullLog.all.map((commit) => ({
@@ -44,26 +48,4 @@ async function getAllAuthors() {
   }));
 
   return authors;
-}
-
-function getAuthorsWithCommitCount(
-  authors: { name: string; email: string }[],
-): Author[] {
-  const uniqueAuthors = authors.reduce((acc, author) => {
-    const authorString = JSON.stringify(author);
-
-    if (!acc[authorString]) {
-      acc[authorString] = {
-        ...author,
-        commits: 0,
-      };
-    }
-
-    acc[authorString].commits++;
-
-    return acc;
-  }, {} as Record<string, Author>);
-
-  const uniqueAuthorsArray = Object.values(uniqueAuthors);
-  return uniqueAuthorsArray;
 }
