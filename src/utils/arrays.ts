@@ -17,5 +17,9 @@ export function sortBy<T>(
 }
 
 export function combineUnique<T>(...arrays: T[][]): T[] {
-  return _.uniqWith(_.flatten(arrays), _.isEqual);
+  return unique(_.flatten(arrays));
+}
+
+export function unique<T>(array: T[]): T[] {
+  return _.uniqWith(array, _.isEqual);
 }

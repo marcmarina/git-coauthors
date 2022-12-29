@@ -42,7 +42,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
 
   if (!chosen?.length) return;
 
-  recentAuthorStore.store(combineUnique(chosen, recents));
+  await recentAuthorStore.store(combineUnique(chosen, recents));
 
   const formattedAuthors = chosen.map(toCoauthor).join('\n');
 

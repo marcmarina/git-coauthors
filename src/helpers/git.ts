@@ -1,8 +1,7 @@
-import _ from 'lodash';
 import { simpleGit } from 'simple-git';
 
 import { Author } from '../application';
-import { sortBy } from '../utils';
+import { sortBy, unique } from '../utils';
 
 /**
  * Function that checks if the current directory is a git repository. If not, it exits the process.
@@ -29,15 +28,14 @@ export async function getAuthors({
   recents?: Author[];
   limit?: number;
 } = {}): Promise<Author[]> {
-  const authors = await getAllAuthors(limit);
-  const unique = _.uniqWith(authors, _.isEqual);
+  const authors = unique(await getAllAuthors(limit));
 
   if (sort) {
-    return sortBy(unique, sort, order);
+    return sortBy(authors, sort, order);
   } else {
-    const combinedAuthors = [...recents, ...unique];
+    const combinedAuthors = [...recents, ...authors];
 
-    return _.uniqWith(combinedAuthors, _.isEqual);
+    return unique(combinedAuthors);
   }
 }
 
