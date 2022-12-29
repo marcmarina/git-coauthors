@@ -2,9 +2,10 @@
 import { Option, program } from 'commander';
 
 import { pickAuthors } from './commands';
-import { config } from './helpers';
 
-program.version(config.version).description('Git co-author picker.');
+const packageJson = require('../package.json');
+
+program.version(packageJson.version).description('Git co-author picker.');
 
 program
   .command('pick', { isDefault: true })
