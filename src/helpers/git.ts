@@ -1,6 +1,7 @@
 import { simpleGit } from 'simple-git';
 
 import { Author } from '../application';
+import { sortBy } from '../utils';
 
 /**
  * Function that checks if the current directory is a git repository. If not, it exits the process.
@@ -16,10 +17,20 @@ export async function assertDirIsRepo(): Promise<void> {
  * Function that returns a full list of unique author names and emails.
  * @returns Array of authors
  */
-export async function getAuthors(): Promise<Author[]> {
+export async function getAuthors({
+  sort,
+  order,
+}: {
+  sort?: keyof Author;
+  order?: 'asc' | 'desc';
+} = {}): Promise<Author[]> {
   const authors = await getAllAuthors();
 
   const authorsWithCommitCount = getAuthorsWithCommitCount(authors);
+
+  if (sort) {
+    return sortBy(authorsWithCommitCount, sort, order);
+  }
 
   return authorsWithCommitCount;
 }

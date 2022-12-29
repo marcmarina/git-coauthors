@@ -1,8 +1,8 @@
 import prompts from 'prompts';
 
-type PromptConfig = {
-  pageSize?: number;
+type PromptConfig<T> = {
   message?: string;
+  toChoice: (value: T) => prompts.Choice;
 };
 
 /**
@@ -10,15 +10,15 @@ type PromptConfig = {
  * @param config Prompt config.
  * @returns User picked options.
  */
-export async function checkboxPrompt(
-  data: string[],
-  { message = 'Select options' }: PromptConfig,
-): Promise<string[]> {
+export async function checkboxPrompt<T>(
+  data: T[],
+  { message = 'Select options', toChoice }: PromptConfig<T>,
+): Promise<T[]> {
   const { choices } = await prompts({
     type: 'autocompleteMultiselect',
     name: 'choices',
     message,
-    choices: data.map((entry) => ({ title: entry, value: entry })),
+    choices: data.map(toChoice),
     instructions: false,
   });
 

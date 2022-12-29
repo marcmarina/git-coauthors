@@ -5,5 +5,5 @@ export type Author = {
 };
 
 export function toCoauthor(author: Author): string {
-  return `${author.name} <${author.email}>`;
+  return `Co-authored-by: ${author.name} <${author.email}>`;
 }

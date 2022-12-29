@@ -3,14 +3,12 @@ import z from 'zod';
 
 import { toCoauthor } from '../application';
 import { assertDirIsRepo, getAuthors, checkboxPrompt } from '../helpers';
-import { sortBy } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),
   sort: z.enum(['commits', 'name', 'email']).optional(),
   order: z.enum(['asc', 'desc']),
 });
-
 type Options = z.infer<typeof pickAuthorsOptionsSchema>;
 
 export default async function pickAuthors(options: Options): Promise<void> {
@@ -18,27 +16,27 @@ export default async function pickAuthors(options: Options): Promise<void> {
 
   const { print, sort, order } = pickAuthorsOptionsSchema.parse(options);
 
-  const authors = await getAuthors();
-  const sortedAuthors = sort ? sortBy(authors, sort, order) : authors;
-  const coauthors = sortedAuthors.map(toCoauthor);
+  const authors = await getAuthors({ sort, order });
 
-  const chosenAuthors = await checkboxPrompt(coauthors, {
+  const chosenAuthors = await checkboxPrompt(authors, {
     message: 'Which co-authors do you want to select?',
+    toChoice: (author) => ({
+      title: `${author.name} <${author.email}>`,
+      value: author,
+    }),
   });
 
-  if (chosenAuthors?.length) {
-    const formattedAuthors = chosenAuthors.map(
-      (author) => `Co-authored-by: ${author}`,
-    );
+  if (!chosenAuthors?.length) return;
 
-    if (print) {
-      console.log(formattedAuthors.join('\n'));
-    }
+  const formattedAuthors = chosenAuthors.map(toCoauthor).join('\n');
 
-    try {
-      await clipboardy.write('\n' + formattedAuthors.join('\n'));
-    } catch (err) {
-      console.log(err);
-    }
+  if (print) {
+    console.log(formattedAuthors);
+  }
+
+  try {
+    await clipboardy.write('\n' + formattedAuthors);
+  } catch (err) {
+    console.log(err);
   }
 }
