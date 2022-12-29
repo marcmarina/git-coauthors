@@ -3,7 +3,8 @@ import z from 'zod';
 
 import { Author, toCoauthor } from '../application';
 import { assertDirIsRepo, getAuthors, checkboxPrompt } from '../helpers';
-import { combineUnique, JSONStore } from '../utils';
+import { JSONStore } from '../storage';
+import { combineUnique } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),
