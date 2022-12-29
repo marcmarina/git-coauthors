@@ -15,3 +15,7 @@ export function sortBy<T>(
 
   return order === 'asc' ? sorted : sorted.reverse();
 }
+
+export function combineUnique<T>(...arrays: T[][]): T[] {
+  return _.uniqWith(_.flatten(arrays), _.isEqual);
+}

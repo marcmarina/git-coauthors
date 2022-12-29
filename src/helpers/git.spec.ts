@@ -47,17 +47,14 @@ describe('getAuthors', () => {
 
     await expect(getAuthors()).resolves.toStrictEqual([
       {
-        commits: 2,
         email: 'kaladin@stormblessed.com',
         name: 'Kaladin Stormblessed',
       },
       {
-        commits: 3,
         email: 'hoid@cosmere.com',
         name: 'Hoid',
       },
       {
-        commits: 1,
         email: 'dalinar@kholin.com',
         name: 'Dalinar Kholin',
       },
