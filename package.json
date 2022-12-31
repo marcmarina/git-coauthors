@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
-    "@types/jest": "29.2.4",
+    "@types/jest": "29.2.5",
     "@types/lodash": "^4.14.191",
     "@types/node": "16",
     "@types/prompts": "^2.4.2",
