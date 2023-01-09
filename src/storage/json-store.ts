@@ -1,5 +1,7 @@
 import fs from 'fs/promises';
 
+import { doesFileOrDirExist } from '../utils';
+
 export default class JSONStore<T> {
   private filepath: string;
   private defaultValue: T;
@@ -37,13 +39,7 @@ export default class JSONStore<T> {
   }
 
   private async doesFileExist(): Promise<boolean> {
-    try {
-      await fs.access(this.filepath);
-
-      return true;
-    } catch (error) {
-      return false;
-    }
+    return await doesFileOrDirExist(this.filepath);
   }
 
   async store(data: T): Promise<void> {

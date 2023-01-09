@@ -2,6 +2,8 @@ import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';
 
+import { currentDirName, doesFileOrDirExist } from '../utils';
+
 const storageDir = path.join(os.homedir(), `.git-coauthors`);
 
 /**
@@ -11,25 +13,13 @@ export function getAuthorsFilePath(): string {
   return path.join(storageDir, `${currentDirName()}.json`);
 }
 
-function currentDirName() {
-  return path.basename(process.cwd());
-}
-
 /**
  * Function that creates the storage directory if it doesn't exist.
  */
 export async function initialiseStorage(): Promise<void> {
-  if (!(await doesEntryExist(storageDir))) {
+  const doesStorageDirExist = await doesFileOrDirExist(storageDir);
+
+  if (!doesStorageDirExist) {
     await fs.mkdir(storageDir);
-  }
-}
-
-async function doesEntryExist(path: string): Promise<boolean> {
-  try {
-    await fs.access(path);
-
-    return true;
-  } catch (error) {
-    return false;
   }
 }
