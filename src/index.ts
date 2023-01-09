@@ -17,14 +17,14 @@ program
     'Limit the number of commits to fetch. Useful for repos with a large history.',
     parseInt,
   )
-  .addOption(
-    new Option('-o, --order <by>', 'Order by')
-      .choices(['asc', 'desc'])
-      .default('asc'),
-  )
   .option('-p, --print', 'Print the chosen authors to the console', false)
   .addOption(
     new Option('-s, --sort <by>', 'Sort by').choices(['email', 'name']),
+  )
+  .addOption(
+    new Option('-o, --order <direction>', 'Order direction')
+      .choices(['asc', 'desc'])
+      .default('asc'),
   )
   .action(pickAuthors);
 
