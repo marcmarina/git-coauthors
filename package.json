@@ -6,9 +6,9 @@
     "cli"
   ],
   "bugs": {
-    "url": "https://github.com/marcmarina/gitauthor-cli/issues"
+    "url": "https://github.com/marcmarina/git-coauthors/issues"
   },
-  "repository": "https://github.com/marcmarina/gitauthor-cli",
+  "repository": "https://github.com/marcmarina/git-coauthors",
   "license": "MIT",
   "author": "Marc Marina",
   "main": "dist/index.js",
