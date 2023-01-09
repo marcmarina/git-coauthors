@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 
-import { doesFileOrDirExist } from '../utils';
+import { doesFileOrDirExist, logger } from '../utils';
 
 export default class JSONStore<T> {
   private filepath: string;
@@ -15,7 +15,7 @@ export default class JSONStore<T> {
     try {
       await fs.unlink(this.filepath);
     } catch (error) {
-      console.log(`Error while deleting ${this.filepath} file: ${error}`);
+      logger.error(`Error while deleting ${this.filepath} file: ${error}`);
     }
   }
 
@@ -31,7 +31,7 @@ export default class JSONStore<T> {
 
       return JSON.parse(fileData.toString());
     } catch (error) {
-      console.log(
+      logger.error(
         `Error while reading data in ${this.filepath}: ${error}. Returning default value.`,
       );
       return this.defaultValue;
@@ -48,7 +48,7 @@ export default class JSONStore<T> {
 
       await fs.writeFile(this.filepath, dataString);
     } catch (error) {
-      console.log(`Error while storing data in ${this.filepath}: ${error}`);
+      logger.error(`Error while storing data in ${this.filepath}: ${error}`);
     }
   }
 }

@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';
 
-import { currentDirName, doesFileOrDirExist } from '../utils';
+import { currentDirName, doesFileOrDirExist, logger } from '../utils';
 
 const STORAGE_DIR = path.join(os.homedir(), `.git-coauthors`);
 
@@ -21,5 +21,8 @@ export async function initialiseStorage(): Promise<void> {
 
   if (!doesStorageDirExist) {
     await fs.mkdir(STORAGE_DIR);
+    logger.success(
+      `Created storage directory at ${STORAGE_DIR}. You will only see this message once.`,
+    );
   }
 }

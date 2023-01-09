@@ -4,7 +4,7 @@ import z from 'zod';
 import { Author, toCoauthor } from '../application';
 import { assertDirIsRepo, getAuthors, checkboxPrompt } from '../helpers';
 import { getAuthorsFilePath, initialiseStorage, JSONStore } from '../storage';
-import { combineUnique } from '../utils';
+import { combineUnique, logger } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),
@@ -43,11 +43,11 @@ export default async function pickAuthors(options: Options): Promise<void> {
     const formattedAuthors = chosen.map(toCoauthor).join('\n');
 
     if (print) {
-      console.log(formattedAuthors);
+      logger.info(formattedAuthors);
     }
 
     await clipboardy.write('\n' + formattedAuthors);
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 }
