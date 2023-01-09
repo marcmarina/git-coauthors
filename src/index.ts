@@ -13,11 +13,6 @@ program
     'Pick co-authors from a list and add them to your clipboard (e.g. Co-authored-by: John Doe <jdoe@example.com>).',
   )
   .option(
-    '-r, --recents <filepath>',
-    'File where the recently picked authors are stored.',
-    '.coauthors',
-  )
-  .option(
     '-l, --limit <number>',
     'Limit the number of commits to fetch. Useful for repos with a large history.',
     parseInt,

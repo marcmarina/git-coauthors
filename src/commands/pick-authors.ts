@@ -3,7 +3,7 @@ import z from 'zod';
 
 import { Author, toCoauthor } from '../application';
 import { assertDirIsRepo, getAuthors, checkboxPrompt } from '../helpers';
-import { JSONStore } from '../storage';
+import { getAuthorsFilePath, initialiseStorage, JSONStore } from '../storage';
 import { combineUnique } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
@@ -11,23 +11,18 @@ const pickAuthorsOptionsSchema = z.object({
   sort: z.enum(['name', 'email']).optional(),
   order: z.enum(['asc', 'desc']),
   limit: z.number().optional(),
-  recents: z.string(),
 });
 type Options = z.infer<typeof pickAuthorsOptionsSchema>;
 
 export default async function pickAuthors(options: Options): Promise<void> {
   try {
     await assertDirIsRepo();
+    await initialiseStorage();
 
-    const {
-      print,
-      sort,
-      order,
-      limit,
-      recents: recentsFilename,
-    } = pickAuthorsOptionsSchema.parse(options);
+    const { print, sort, order, limit } =
+      pickAuthorsOptionsSchema.parse(options);
 
-    const recentAuthorStore = new JSONStore<Author[]>(recentsFilename, []);
+    const recentAuthorStore = new JSONStore<Author[]>(getAuthorsFilePath(), []);
 
     const recents = await recentAuthorStore.get();
 

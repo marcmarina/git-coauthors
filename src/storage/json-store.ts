@@ -1,12 +1,13 @@
 import fs from 'fs/promises';
-import path from 'path';
+
+import { doesFileOrDirExist } from '../utils';
 
 export default class JSONStore<T> {
   private filepath: string;
   private defaultValue: T;
 
   constructor(filepath: string, defaultValue: T) {
-    this.filepath = path.join(process.cwd(), filepath);
+    this.filepath = filepath;
     this.defaultValue = defaultValue;
   }
 
@@ -38,18 +39,12 @@ export default class JSONStore<T> {
   }
 
   private async doesFileExist(): Promise<boolean> {
-    try {
-      await fs.access(this.filepath);
-
-      return true;
-    } catch (error) {
-      return false;
-    }
+    return await doesFileOrDirExist(this.filepath);
   }
 
   async store(data: T): Promise<void> {
     try {
-      const dataString = JSON.stringify(data);
+      const dataString = JSON.stringify(data, null, 2);
 
       await fs.writeFile(this.filepath, dataString);
     } catch (error) {
