@@ -5,17 +5,14 @@ import path from 'path';
 const storageDir = path.join(os.homedir(), `.git-coauthors`);
 
 /**
- * @returns The name of the current working directory
- */
-function currentDirName() {
-  return path.basename(process.cwd());
-}
-
-/**
  * @returns The path to the file where the co-authors are stored for the current working directory.
  */
 export function getAuthorsFilePath(): string {
   return path.join(storageDir, `${currentDirName()}.json`);
+}
+
+function currentDirName() {
+  return path.basename(process.cwd());
 }
 
 /**
