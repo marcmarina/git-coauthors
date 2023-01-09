@@ -1,12 +1,11 @@
 import fs from 'fs/promises';
-import path from 'path';
 
 export default class JSONStore<T> {
   private filepath: string;
   private defaultValue: T;
 
   constructor(filepath: string, defaultValue: T) {
-    this.filepath = path.join(process.cwd(), filepath);
+    this.filepath = filepath;
     this.defaultValue = defaultValue;
   }
 

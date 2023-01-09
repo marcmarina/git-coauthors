@@ -1,9 +1,12 @@
+import os from 'os';
+import path from 'path';
+
 import clipboardy from 'clipboardy';
 import z from 'zod';
 
 import { Author, toCoauthor } from '../application';
 import { assertDirIsRepo, getAuthors, checkboxPrompt } from '../helpers';
-import { JSONStore } from '../storage';
+import { currentDirName, JSONStore } from '../storage';
 import { combineUnique } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
@@ -11,7 +14,6 @@ const pickAuthorsOptionsSchema = z.object({
   sort: z.enum(['name', 'email']).optional(),
   order: z.enum(['asc', 'desc']),
   limit: z.number().optional(),
-  recents: z.string(),
 });
 type Options = z.infer<typeof pickAuthorsOptionsSchema>;
 
@@ -19,15 +21,15 @@ export default async function pickAuthors(options: Options): Promise<void> {
   try {
     await assertDirIsRepo();
 
-    const {
-      print,
-      sort,
-      order,
-      limit,
-      recents: recentsFilename,
-    } = pickAuthorsOptionsSchema.parse(options);
+    const { print, sort, order, limit } =
+      pickAuthorsOptionsSchema.parse(options);
 
-    const recentAuthorStore = new JSONStore<Author[]>(recentsFilename, []);
+    const recentsFilepath = path.join(
+      os.tmpdir(),
+      `${currentDirName()}-coauthors.json`,
+    );
+
+    const recentAuthorStore = new JSONStore<Author[]>(recentsFilepath, []);
 
     const recents = await recentAuthorStore.get();
 
