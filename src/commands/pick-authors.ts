@@ -1,12 +1,9 @@
-import os from 'os';
-import path from 'path';
-
 import clipboardy from 'clipboardy';
 import z from 'zod';
 
 import { Author, toCoauthor } from '../application';
 import { assertDirIsRepo, getAuthors, checkboxPrompt } from '../helpers';
-import { currentDirName, JSONStore } from '../storage';
+import { getAuthorsFilePath, JSONStore } from '../storage';
 import { combineUnique } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
@@ -24,12 +21,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
     const { print, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);
 
-    const recentsFilepath = path.join(
-      os.tmpdir(),
-      `${currentDirName()}-coauthors.json`,
-    );
-
-    const recentAuthorStore = new JSONStore<Author[]>(recentsFilepath, []);
+    const recentAuthorStore = new JSONStore<Author[]>(getAuthorsFilePath(), []);
 
     const recents = await recentAuthorStore.get();
 
