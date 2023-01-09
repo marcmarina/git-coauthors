@@ -48,7 +48,7 @@ export default class JSONStore<T> {
 
   async store(data: T): Promise<void> {
     try {
-      const dataString = JSON.stringify(data);
+      const dataString = JSON.stringify(data, null, 2);
 
       await fs.writeFile(this.filepath, dataString);
     } catch (error) {

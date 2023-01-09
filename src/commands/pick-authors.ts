@@ -3,7 +3,7 @@ import z from 'zod';
 
 import { Author, toCoauthor } from '../application';
 import { assertDirIsRepo, getAuthors, checkboxPrompt } from '../helpers';
-import { getAuthorsFilePath, JSONStore } from '../storage';
+import { getAuthorsFilePath, initialiseStorage, JSONStore } from '../storage';
 import { combineUnique } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
@@ -17,6 +17,7 @@ type Options = z.infer<typeof pickAuthorsOptionsSchema>;
 export default async function pickAuthors(options: Options): Promise<void> {
   try {
     await assertDirIsRepo();
+    await initialiseStorage();
 
     const { print, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);
