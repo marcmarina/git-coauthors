@@ -6,7 +6,7 @@ import {
   assertDirIsRepo,
   getAuthors,
   checkboxPrompt,
-  amendLastCommit,
+  appendToLastCommit,
 } from '../helpers';
 import { getAuthorsFilePath, initialiseStorage, JSONStore } from '../storage';
 import { combineUnique, logger } from '../utils';
@@ -53,7 +53,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
     }
 
     if (amend) {
-      await amendLastCommit('\n\n' + formattedAuthors);
+      await appendToLastCommit('\n\n' + formattedAuthors);
     }
 
     await clipboardy.write('\n' + formattedAuthors);

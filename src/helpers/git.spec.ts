@@ -1,6 +1,6 @@
 import { simpleGit } from 'simple-git';
 
-import { amendLastCommit, getAuthors } from './git';
+import { appendToLastCommit, getAuthors } from './git';
 
 jest.mock('simple-git');
 
@@ -73,7 +73,7 @@ describe('amendLastCommit', () => {
       commit: jest.fn(),
     });
 
-    await amendLastCommit(' Message to append');
+    await appendToLastCommit(' Message to append');
 
     expect(mockedGit().commit).toHaveBeenCalledWith(
       'Original message Message to append',
