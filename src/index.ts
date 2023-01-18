@@ -26,6 +26,11 @@ program
       .choices(['asc', 'desc'])
       .default('asc'),
   )
+  .option(
+    '-a, --amend',
+    'Amend the last commit and add the chosen coauthors',
+    false,
+  )
   .action(pickAuthors);
 
 program.parse(process.argv);

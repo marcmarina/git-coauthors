@@ -13,6 +13,20 @@ export async function assertDirIsRepo(): Promise<void> {
   }
 }
 
+export async function amendLastCommit(message: string): Promise<void> {
+  const git = simpleGit();
+
+  const log = await git.log({ maxCount: 1 });
+
+  const latestCommit = log.latest;
+
+  if (latestCommit) {
+    await simpleGit().commit(latestCommit.message + '\n\n' + message, [
+      '--amend',
+    ]);
+  }
+}
+
 /**
  * Function that returns a full list of unique author names and emails.
  * @returns Array of authors
