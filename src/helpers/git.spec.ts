@@ -1,6 +1,6 @@
 import { simpleGit } from 'simple-git';
 
-import { getAuthors } from './git';
+import { amendLastCommit, getAuthors } from './git';
 
 jest.mock('simple-git');
 
@@ -59,5 +59,25 @@ describe('getAuthors', () => {
         name: 'Dalinar Kholin',
       },
     ]);
+  });
+});
+
+describe('amendLastCommit', () => {
+  it("appends the given message to the last commit's message", async () => {
+    mockedGit.mockReturnValue({
+      log: () => ({
+        latest: {
+          message: 'Original message',
+        },
+      }),
+      commit: jest.fn(),
+    });
+
+    await amendLastCommit(' Message to append');
+
+    expect(mockedGit().commit).toHaveBeenCalledWith(
+      'Original message Message to append',
+      ['--amend'],
+    );
   });
 });

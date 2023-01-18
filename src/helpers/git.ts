@@ -18,12 +18,10 @@ export async function amendLastCommit(message: string): Promise<void> {
 
   const log = await git.log({ maxCount: 1 });
 
-  const latestCommit = log.latest;
+  const originalMessage = log.latest?.message;
 
-  if (latestCommit) {
-    await simpleGit().commit(latestCommit.message + '\n\n' + message, [
-      '--amend',
-    ]);
+  if (originalMessage) {
+    await simpleGit().commit(`${originalMessage}${message}`, ['--amend']);
   }
 }
 

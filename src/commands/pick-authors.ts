@@ -53,7 +53,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
     }
 
     if (amend) {
-      await amendLastCommit(formattedAuthors);
+      await amendLastCommit('\n\n' + formattedAuthors);
     }
 
     await clipboardy.write('\n' + formattedAuthors);
