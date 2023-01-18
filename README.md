@@ -7,6 +7,7 @@ This is a CLI tool that helps you pick co-authors for your git commits.
   - [Limit](#limit)
   - [Sorting](#sorting)
   - [Print](#print)
+  - [Amend](#amend)
 
 ## How it works
 
@@ -31,3 +32,9 @@ The `-o, --order <direction>` flag just controls the sorting direction: `asc, de
 ### Print
 
 The `-p, --print` flag outputs the chosen authors to the console. This can be useful if for some reason the program can't manage to add them to your clipboard automatically.
+
+### Amend
+
+The `-a, --amend` flag will append the chosen authors to the last commit in the current repository.
+
+> Note that if you run the command after having amended once, it won't replace the existing coauthors, it will just add new ones at the end.

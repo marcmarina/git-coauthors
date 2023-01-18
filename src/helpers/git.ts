@@ -14,6 +14,27 @@ export async function assertDirIsRepo(): Promise<void> {
 }
 
 /**
+ * @param message Message to append to the last commit.
+ */
+export async function appendToLastCommit(message: string): Promise<void> {
+  const originalMessage = await getLastCommitMessage();
+
+  if (originalMessage) {
+    await amendLastCommit(`${originalMessage}${message}`);
+  }
+}
+
+async function amendLastCommit(message: string): Promise<void> {
+  await simpleGit().commit(message, ['--amend']);
+}
+
+async function getLastCommitMessage(): Promise<string | undefined> {
+  const log = await simpleGit().log({ maxCount: 1 });
+
+  return log.latest?.message;
+}
+
+/**
  * Function that returns a full list of unique author names and emails.
  * @returns Array of authors
  */

@@ -2,7 +2,12 @@ import clipboardy from 'clipboardy';
 import z from 'zod';
 
 import { Author, toCoauthor } from '../application';
-import { assertDirIsRepo, getAuthors, checkboxPrompt } from '../helpers';
+import {
+  assertDirIsRepo,
+  getAuthors,
+  checkboxPrompt,
+  appendToLastCommit,
+} from '../helpers';
 import { getAuthorsFilePath, initialiseStorage, JSONStore } from '../storage';
 import { combineUnique, logger } from '../utils';
 
@@ -11,6 +16,7 @@ const pickAuthorsOptionsSchema = z.object({
   sort: z.enum(['name', 'email']).optional(),
   order: z.enum(['asc', 'desc']),
   limit: z.number().optional(),
+  amend: z.boolean(),
 });
 type Options = z.infer<typeof pickAuthorsOptionsSchema>;
 
@@ -19,7 +25,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
     await assertDirIsRepo();
     await initialiseStorage();
 
-    const { print, sort, order, limit } =
+    const { amend, print, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);
 
     const recentAuthorStore = new JSONStore<Author[]>(getAuthorsFilePath(), []);
@@ -44,6 +50,10 @@ export default async function pickAuthors(options: Options): Promise<void> {
 
     if (print) {
       logger.info(formattedAuthors);
+    }
+
+    if (amend) {
+      await appendToLastCommit('\n\n' + formattedAuthors);
     }
 
     await clipboardy.write('\n' + formattedAuthors);
