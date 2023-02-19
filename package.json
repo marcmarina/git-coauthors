@@ -19,10 +19,10 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint . --ext .ts",
-    "prepare": "husky install && yarn build",
-    "start": "yarn build && node dist/index.js",
+    "prepare": "husky install && pnpm run build",
+    "start": "pnpm run build && node dist/index.js",
     "test": "jest --passWithNoTests",
-    "verify": "yarn build --noEmit && yarn lint && yarn test"
+    "verify": "pnpm run build --noEmit && pnpm run lint && pnpm run test"
   },
   "dependencies": {
     "chalk": "^4",
