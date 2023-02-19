@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';
 
-import { currentDirName, doesFileOrDirExist, logger } from '../utils';
+import { getCurrentDirName, doesFileOrDirExist, logger } from '../utils';
 
 const STORAGE_DIR = path.join(os.homedir(), `.git-coauthors`);
 
@@ -10,7 +10,7 @@ const STORAGE_DIR = path.join(os.homedir(), `.git-coauthors`);
  * @returns The path to the file where the co-authors are stored for the current working directory.
  */
 export function getAuthorsFilePath(): string {
-  return path.join(STORAGE_DIR, `${currentDirName()}.json`);
+  return path.join(STORAGE_DIR, `${getCurrentDirName()}.json`);
 }
 
 /**
