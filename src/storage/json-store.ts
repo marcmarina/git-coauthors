@@ -11,14 +11,6 @@ export class JSONStore<T> {
     this.defaultValue = defaultValue;
   }
 
-  async delete(): Promise<void> {
-    try {
-      await fs.unlink(this.filepath);
-    } catch (error) {
-      logger.error(`Error while deleting ${this.filepath} file: ${error}`);
-    }
-  }
-
   async get(): Promise<T> {
     try {
       const fileExists = await this.doesFileExist();
@@ -38,10 +30,6 @@ export class JSONStore<T> {
     }
   }
 
-  private async doesFileExist(): Promise<boolean> {
-    return await doesFileOrDirExist(this.filepath);
-  }
-
   async store(data: T): Promise<void> {
     try {
       const dataString = JSON.stringify(data, null, 2);
@@ -50,5 +38,17 @@ export class JSONStore<T> {
     } catch (error) {
       logger.error(`Error while storing data in ${this.filepath}: ${error}`);
     }
+  }
+
+  async delete(): Promise<void> {
+    try {
+      await fs.unlink(this.filepath);
+    } catch (error) {
+      logger.error(`Error while deleting ${this.filepath} file: ${error}`);
+    }
+  }
+
+  private async doesFileExist(): Promise<boolean> {
+    return await doesFileOrDirExist(this.filepath);
   }
 }
