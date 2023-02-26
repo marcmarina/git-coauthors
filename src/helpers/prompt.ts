@@ -10,7 +10,7 @@ type PromptConfig<T> = {
  * @param config Prompt config.
  * @returns User picked options.
  */
-export async function checkboxPrompt<T>(
+export async function multiselect<T>(
   data: T[],
   { message = 'Select options', toChoice }: PromptConfig<T>,
 ): Promise<T[]> {

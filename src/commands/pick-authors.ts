@@ -5,7 +5,7 @@ import { toCoauthor } from '../application';
 import {
   assertDirIsRepo,
   getAuthors,
-  checkboxPrompt,
+  multiselect,
   appendToLastCommit,
   RecentAuthorService,
 } from '../helpers';
@@ -35,7 +35,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
 
     const authors = await getAuthors({ sort, order, recents, limit });
 
-    const chosen = await checkboxPrompt(authors, {
+    const chosen = await multiselect(authors, {
       message: 'Which co-authors do you want to select?',
       toChoice: (author) => ({
         title: `${author.name} <${author.email}>`,
