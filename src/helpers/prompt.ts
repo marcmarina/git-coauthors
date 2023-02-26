@@ -2,6 +2,11 @@ import prompts from 'prompts';
 
 type PromptConfig<T> = {
   message?: string;
+  /**
+   * Function to transform data to a prompt choice.
+   * @param value
+   * @returns Choice object.
+   */
   toChoice: (value: T) => prompts.Choice;
 };
 
