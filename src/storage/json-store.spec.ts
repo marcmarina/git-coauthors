@@ -19,7 +19,10 @@ const mockedDoesFileOrDirExist = doesFileOrDirExist as jest.MockedFunction<
 >;
 
 describe('JSONStore', () => {
-  const jsonStore = new JSONStore<any>('some-file.json', 'default-value');
+  const filename = 'some-file.json';
+  const defaultValue = { foo: 'bar' };
+
+  const jsonStore = new JSONStore<any>(filename, defaultValue);
 
   describe('get', () => {
     it('returns the default value if the file does not exist', async () => {
@@ -27,7 +30,7 @@ describe('JSONStore', () => {
 
       const result = await jsonStore.get();
 
-      expect(result).toBe('default-value');
+      expect(result).toBe(defaultValue);
     });
 
     it('returns the default value if the file is empty', async () => {
@@ -36,7 +39,7 @@ describe('JSONStore', () => {
 
       const result = await jsonStore.get();
 
-      expect(result).toBe('default-value');
+      expect(result).toBe(defaultValue);
     });
 
     it('returns the default value if the file contains invalid JSON', async () => {
@@ -45,7 +48,7 @@ describe('JSONStore', () => {
 
       const result = await jsonStore.get();
 
-      expect(result).toBe('default-value');
+      expect(result).toBe(defaultValue);
     });
 
     it('returns the data from the file if the file exists and contains valid JSON', async () => {
@@ -65,7 +68,7 @@ describe('JSONStore', () => {
       await jsonStore.store({ foo: 'bar' });
 
       expect(mockedFs.writeFile).toHaveBeenCalledWith(
-        'some-file.json',
+        filename,
         JSON.stringify({ foo: 'bar' }, null, 2),
       );
     });
@@ -75,7 +78,7 @@ describe('JSONStore', () => {
     it('deletes the file', async () => {
       await jsonStore.delete();
 
-      expect(mockedFs.unlink).toHaveBeenCalledWith('some-file.json');
+      expect(mockedFs.unlink).toHaveBeenCalledWith(filename);
     });
   });
 });
