@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 
 import { doesFileOrDirExist, logger } from '../utils';
 
-export default class JSONStore<T> {
+export class JSONStore<T> {
   private filepath: string;
   private defaultValue: T;
 

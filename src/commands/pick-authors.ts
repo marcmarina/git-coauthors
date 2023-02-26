@@ -1,15 +1,16 @@
 import clipboardy from 'clipboardy';
 import z from 'zod';
 
-import { Author, toCoauthor } from '../application';
+import { toCoauthor } from '../application';
 import {
   assertDirIsRepo,
   getAuthors,
   checkboxPrompt,
   appendToLastCommit,
+  RecentAuthorService,
 } from '../helpers';
-import { getAuthorsFilePath, initialiseStorage, JSONStore } from '../storage';
-import { combineUnique, logger } from '../utils';
+import { initialiseStorage } from '../storage';
+import { logger } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),
@@ -28,9 +29,9 @@ export default async function pickAuthors(options: Options): Promise<void> {
     const { amend, print, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);
 
-    const recentAuthorStore = new JSONStore<Author[]>(getAuthorsFilePath(), []);
+    const recentAuthorService = new RecentAuthorService();
 
-    const recents = await recentAuthorStore.get();
+    const recents = await recentAuthorService.get();
 
     const authors = await getAuthors({ sort, order, recents, limit });
 
@@ -44,7 +45,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
 
     if (!chosen?.length) return;
 
-    await recentAuthorStore.store(combineUnique(chosen, recents));
+    await recentAuthorService.add(chosen);
 
     const formattedAuthors = chosen.map(toCoauthor).join('\n');
 
