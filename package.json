@@ -25,7 +25,7 @@
     "verify": "pnpm run build --noEmit && pnpm run lint && pnpm run test"
   },
   "dependencies": {
-    "chalk": "^4",
+    "chalk": "^5.0.0",
     "clipboardy": "^2.0.0",
     "commander": "^9.3.0",
     "lodash": "^4.17.21",
