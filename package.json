@@ -27,7 +27,7 @@
   "dependencies": {
     "chalk": "^4",
     "clipboardy": "^2.0.0",
-    "commander": "^9.3.0",
+    "commander": "^10.0.0",
     "lodash": "^4.17.21",
     "prompts": "^2.4.2",
     "simple-git": "^3.16.1",
