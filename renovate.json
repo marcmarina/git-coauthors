@@ -8,5 +8,6 @@
       "matchUpdateTypes": ["pin", "patch"],
       "automerge": true
     }
-  ]
+  ],
+  "ignoreDeps": ["chalk", "commander"]
 }
