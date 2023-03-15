@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@types/commander': ^2.12.2
-  '@types/jest': 29.4.2
+  '@types/jest': 29.4.3
   '@types/lodash': ^4.14.191
   '@types/node': '16'
   '@types/prompts': ^2.4.2
@@ -37,7 +37,7 @@ dependencies:
 
 devDependencies:
   '@types/commander': 2.12.2
-  '@types/jest': 29.4.2
+  '@types/jest': 29.4.3
   '@types/lodash': 4.14.191
   '@types/node': 16.18.11
   '@types/prompts': 2.4.2
@@ -850,8 +850,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/jest/29.4.2:
-    resolution: {integrity: sha512-bbne90W7is+m88ezmZrLiTpp41tIoTdvPC5t3gLoNgu/6qbGdWTC2JWqPWQRJn2Q7rVYTr8aTWqOjhGJDXyvAQ==}
+  /@types/jest/29.4.3:
+    resolution: {integrity: sha512-rQ+fXtBHSDfgoTwGLLNuZ27fHpp14mCZSxGUZ3MlNExwJno5hz0uXEWtXfQlE8vaZmYAa6atbR9rpHk+NnlRaw==}
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
