@@ -17,7 +17,7 @@ specifiers:
   jest: 29.5.0
   lint-staged: 13.2.0
   lodash: ^4.17.21
-  prettier: 2.8.6
+  prettier: 2.8.7
   prompts: ^2.4.2
   simple-git: ^3.16.1
   sort-package-json: ^2.1.0
@@ -48,7 +48,7 @@ devDependencies:
   husky: 8.0.3
   jest: 29.5.0_35bb52e3ngsl3trrvg3csiponq
   lint-staged: 13.2.0
-  prettier: 2.8.6
+  prettier: 2.8.7
   sort-package-json: 2.1.0
   ts-jest: 29.0.3_cdjgginuefokmzmklysahvrmme
   ts-node: 10.9.1_qacynw5b4krdzzrloasmebsynu
@@ -3352,8 +3352,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier/2.8.6:
-    resolution: {integrity: sha512-mtuzdiBbHwPEgl7NxWlqOkithPyp4VN93V7VeHVWBF+ad3I5avc0RVDT4oImXQy9H/AqxA2NSQH8pSxHW6FYbQ==}
+  /prettier/2.8.7:
+    resolution: {integrity: sha512-yPngTo3aXUUmyuTjeTUT75txrf+aMh9FiD7q9ZE/i6r0bPb22g4FsE6Y338PQX1bmfy08i9QQCB7/rcUAVntfw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
