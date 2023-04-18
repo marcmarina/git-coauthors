@@ -7,8 +7,8 @@
       "cache": true
     },
     "test": {
-      "dependsOn": ["^test"],
-      "cache": false
+      "dependsOn": ["build", "^test"],
+      "cache": true
     }
   }
 }
