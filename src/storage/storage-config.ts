@@ -2,8 +2,7 @@ import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';
 
-import { logger } from '@internal/logger';
-import { doesFileOrDirExist } from '@internal/utils';
+import { doesFileOrDirExist, logger } from '../utils';
 
 /**
  * The directory where data for this application is stored.

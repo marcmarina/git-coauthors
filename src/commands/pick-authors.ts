@@ -1,12 +1,16 @@
 import clipboardy from 'clipboardy';
 import z from 'zod';
 
-import { appendToLastCommit, assertDirIsRepo, getAuthors } from '@internal/git';
-import { logger } from '@internal/logger';
-import { initialiseStorage } from '@internal/storage';
-import { toCoauthor } from '@internal/types';
-
-import { multiselect, RecentAuthorService } from '../helpers';
+import { toCoauthor } from '../application';
+import {
+  assertDirIsRepo,
+  getAuthors,
+  multiselect,
+  appendToLastCommit,
+  RecentAuthorService,
+} from '../helpers';
+import { initialiseStorage } from '../storage';
+import { logger } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),

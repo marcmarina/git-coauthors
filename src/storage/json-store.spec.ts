@@ -1,18 +1,16 @@
 import fs from 'fs/promises';
 
-import { doesFileOrDirExist } from '@internal/utils';
+import { doesFileOrDirExist } from '../utils';
 
 import { JSONStore } from './json-store';
 
 jest.mock('fs/promises');
-jest.mock('@internal/utils', () => ({
-  ...jest.requireActual('@internal/utils'),
-  doesFileOrDirExist: jest.fn(),
-}));
-jest.mock('@internal/logger', () => ({
+jest.mock('../utils', () => ({
+  ...jest.requireActual('../utils'),
   logger: {
     error: jest.fn(),
   },
+  doesFileOrDirExist: jest.fn(),
 }));
 
 const mockedFs = fs as jest.Mocked<typeof fs>;

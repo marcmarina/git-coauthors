@@ -1,3 +1,6 @@
 module.exports = {
-  ...require('@internal/jest-config'),
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  clearMocks: true,
+  modulePathIgnorePatterns: ['<rootDir>/dist/'],
 };
