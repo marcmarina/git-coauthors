@@ -1,4 +1,5 @@
 import { logger } from '@internal/logger';
+import { initialiseStorage } from '@internal/storage';
 import { toCoauthor } from '@internal/types';
 import clipboardy from 'clipboardy';
 import z from 'zod';
@@ -10,7 +11,6 @@ import {
   appendToLastCommit,
   RecentAuthorService,
 } from '../helpers';
-import { initialiseStorage } from '../storage';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),

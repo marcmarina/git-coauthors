@@ -32,6 +32,9 @@ importers:
       '@internal/logger':
         specifier: workspace:*
         version: link:packages/logger
+      '@internal/storage':
+        specifier: workspace:*
+        version: link:packages/storage
       '@internal/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
@@ -100,6 +103,15 @@ importers:
 
   packages/logger:
     devDependencies:
+      '@internal/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+
+  packages/storage:
+    devDependencies:
+      '@internal/jest-config':
+        specifier: workspace:*
+        version: link:../jest-config
       '@internal/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig

@@ -1,9 +1,9 @@
-import { JSONStore } from '../storage';
+import { JSONStore } from '@internal/storage';
 
 import { RecentAuthorService } from './recent-authors';
 
-jest.mock('../storage', () => ({
-  ...jest.requireActual('../storage'),
+jest.mock('@internal/storage', () => ({
+  ...jest.requireActual('@internal/storage'),
   JSONStore: jest.fn(),
 }));
 
