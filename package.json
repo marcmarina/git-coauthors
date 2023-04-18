@@ -16,23 +16,20 @@
   "bin": {
     "git-coauthors": "dist/index.js"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "build": "turbo run build && tsc",
     "lint": "eslint . --ext .ts",
-    "prepare": "husky install && npm run build",
-    "start": "npm run build && node dist/index.js",
+    "prepare": "husky install && pnpm run build",
+    "start": "pnpm run build && node dist/index.js",
     "test": "turbo run test && jest --passWithNoTests",
-    "verify": "npm run build --noEmit && npm run lint && npm run test"
+    "verify": "pnpm run build --noEmit && pnpm run lint && pnpm run test"
   },
   "dependencies": {
-    "@internal/git": "*",
-    "@internal/logger": "*",
-    "@internal/storage": "*",
-    "@internal/types": "*",
-    "@internal/utils": "*",
+    "@internal/git": "workspace:*",
+    "@internal/logger": "workspace:*",
+    "@internal/storage": "workspace:*",
+    "@internal/types": "workspace:*",
+    "@internal/utils": "workspace:*",
     "chalk": "^4",
     "clipboardy": "^2.0.0",
     "commander": "^9.3.0",
@@ -42,13 +39,13 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@internal/git": "*",
-    "@internal/jest-config": "*",
-    "@internal/logger": "*",
-    "@internal/storage": "*",
-    "@internal/tsconfig": "*",
-    "@internal/types": "*",
-    "@internal/utils": "*",
+    "@internal/git": "workspace:*",
+    "@internal/jest-config": "workspace:*",
+    "@internal/logger": "workspace:*",
+    "@internal/storage": "workspace:*",
+    "@internal/tsconfig": "workspace:*",
+    "@internal/types": "workspace:*",
+    "@internal/utils": "workspace:*",
     "@types/commander": "^2.12.2",
     "@types/jest": "29.4.4",
     "@types/lodash": "^4.14.191",

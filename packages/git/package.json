@@ -12,10 +12,10 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@internal/jest-config": "*",
-    "@internal/logger": "*",
-    "@internal/tsconfig": "*",
-    "@internal/types": "*",
-    "@internal/utils": "*"
+    "@internal/jest-config": "workspace:*",
+    "@internal/logger": "workspace:*",
+    "@internal/tsconfig": "workspace:*",
+    "@internal/types": "workspace:*",
+    "@internal/utils": "workspace:*"
   }
 }
