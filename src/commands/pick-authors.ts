@@ -1,16 +1,11 @@
+import { appendToLastCommit, assertDirIsRepo, getAuthors } from '@internal/git';
 import { logger } from '@internal/logger';
 import { initialiseStorage } from '@internal/storage';
 import { toCoauthor } from '@internal/types';
 import clipboardy from 'clipboardy';
 import z from 'zod';
 
-import {
-  assertDirIsRepo,
-  getAuthors,
-  multiselect,
-  appendToLastCommit,
-  RecentAuthorService,
-} from '../helpers';
+import { multiselect, RecentAuthorService } from '../helpers';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),

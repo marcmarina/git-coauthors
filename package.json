@@ -34,11 +34,12 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
+    "@internal/git": "workspace:*",
     "@internal/jest-config": "workspace:*",
-    "@internal/storage": "workspace:*",
-    "@internal/types": "workspace:*",
     "@internal/logger": "workspace:*",
+    "@internal/storage": "workspace:*",
     "@internal/tsconfig": "workspace:*",
+    "@internal/types": "workspace:*",
     "@internal/utils": "workspace:*",
     "@types/commander": "^2.12.2",
     "@types/jest": "29.4.4",
