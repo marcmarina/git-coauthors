@@ -17,11 +17,11 @@
     "git-coauthors": "dist/index.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "turbo run build && tsc",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install && pnpm run build",
     "start": "pnpm run build && node dist/index.js",
-    "test": "jest --passWithNoTests",
+    "test": "turbo run test && jest --passWithNoTests",
     "verify": "pnpm run build --noEmit && pnpm run lint && pnpm run test"
   },
   "dependencies": {
@@ -34,6 +34,13 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
+    "@internal/git": "workspace:*",
+    "@internal/jest-config": "workspace:*",
+    "@internal/logger": "workspace:*",
+    "@internal/storage": "workspace:*",
+    "@internal/tsconfig": "workspace:*",
+    "@internal/types": "workspace:*",
+    "@internal/utils": "workspace:*",
     "@types/commander": "^2.12.2",
     "@types/jest": "29.4.4",
     "@types/lodash": "^4.14.191",
@@ -43,6 +50,7 @@
     "@typescript-eslint/parser": "5.54.1",
     "eslint": "8.36.0",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "husky": "8.0.3",
     "jest": "29.5.0",
     "lint-staged": "13.2.1",
@@ -50,6 +58,7 @@
     "sort-package-json": "^2.1.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
+    "turbo": "^1.9.3",
     "typescript": "^4.9.4"
   }
 }

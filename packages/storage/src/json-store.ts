@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 
-import { doesFileOrDirExist, logger } from '../utils';
+import { logger } from '@internal/logger';
+import { doesFileOrDirExist } from '@internal/utils';
 
 export class JSONStore<T> {
   private filepath: string;

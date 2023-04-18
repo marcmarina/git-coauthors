@@ -6,9 +6,9 @@ import _ from 'lodash';
  * @param order Order of the sorting
  * @returns The sorted array
  */
-export function sortBy<T>(
+export function sortBy<T, K extends keyof T>(
   arr: T[],
-  property: keyof T,
+  property: K,
   order: 'asc' | 'desc' = 'asc',
 ): T[] {
   const sorted = _.sortBy(arr, property);
