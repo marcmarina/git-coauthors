@@ -1,0 +1,10 @@
+{
+  "name": "@internal/jest-config",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  }
+}
