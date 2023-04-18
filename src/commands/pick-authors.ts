@@ -1,9 +1,10 @@
+import clipboardy from 'clipboardy';
+import z from 'zod';
+
 import { appendToLastCommit, assertDirIsRepo, getAuthors } from '@internal/git';
 import { logger } from '@internal/logger';
 import { initialiseStorage } from '@internal/storage';
 import { toCoauthor } from '@internal/types';
-import clipboardy from 'clipboardy';
-import z from 'zod';
 
 import { multiselect, RecentAuthorService } from '../helpers';
 

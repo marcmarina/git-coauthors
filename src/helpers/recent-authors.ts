@@ -2,8 +2,7 @@ import path from 'path';
 
 import { JSONStore, STORAGE_DIR } from '@internal/storage';
 import { Author } from '@internal/types';
-import { getCurrentDirName, combineUnique } from '@internal/utils';
-
+import { combineUnique, getCurrentDirName } from '@internal/utils';
 
 /**
  * @returns The path to the file where the co-authors are stored for the current working directory.

@@ -1,8 +1,9 @@
+import { sortBy } from 'lodash';
+import { simpleGit } from 'simple-git';
+
 import { logger } from '@internal/logger';
 import { Author } from '@internal/types';
 import { unique } from '@internal/utils';
-import { sortBy } from 'lodash';
-import { simpleGit } from 'simple-git';
 
 /**
  * Function that checks if the current directory is a git repository. If not, it exits the process.
