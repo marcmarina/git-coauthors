@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@internal/jest-config": "workspace:*",
+    "@internal/types": "workspace:*",
     "@internal/logger": "workspace:*",
     "@internal/tsconfig": "workspace:*",
     "@internal/utils": "workspace:*",

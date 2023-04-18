@@ -1,8 +1,8 @@
 import { logger } from '@internal/logger';
+import { toCoauthor } from '@internal/types';
 import clipboardy from 'clipboardy';
 import z from 'zod';
 
-import { toCoauthor } from '../application';
 import {
   assertDirIsRepo,
   getAuthors,

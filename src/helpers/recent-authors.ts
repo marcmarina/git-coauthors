@@ -1,8 +1,8 @@
 import path from 'path';
 
+import { Author } from '@internal/types';
 import { getCurrentDirName, combineUnique } from '@internal/utils';
 
-import { Author } from '../application';
 import { JSONStore, STORAGE_DIR } from '../storage';
 
 /**

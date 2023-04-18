@@ -35,6 +35,9 @@ importers:
       '@internal/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
+      '@internal/types':
+        specifier: workspace:*
+        version: link:packages/types
       '@internal/utils':
         specifier: workspace:*
         version: link:packages/utils
@@ -103,8 +106,20 @@ importers:
 
   packages/tsconfig: {}
 
+  packages/types:
+    devDependencies:
+      '@internal/jest-config':
+        specifier: workspace:*
+        version: link:../jest-config
+      '@internal/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+
   packages/utils:
     devDependencies:
+      '@internal/jest-config':
+        specifier: workspace:*
+        version: link:../jest-config
       '@internal/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
