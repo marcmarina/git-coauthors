@@ -4,6 +4,21 @@ importers:
 
   .:
     dependencies:
+      '@internal/git':
+        specifier: workspace:*
+        version: link:packages/git
+      '@internal/logger':
+        specifier: workspace:*
+        version: link:packages/logger
+      '@internal/storage':
+        specifier: workspace:*
+        version: link:packages/storage
+      '@internal/types':
+        specifier: workspace:*
+        version: link:packages/types
+      '@internal/utils':
+        specifier: workspace:*
+        version: link:packages/utils
       chalk:
         specifier: ^4
         version: 4.1.2
@@ -26,27 +41,12 @@ importers:
         specifier: ^3.20.2
         version: 3.20.2
     devDependencies:
-      '@internal/git':
-        specifier: workspace:*
-        version: link:packages/git
       '@internal/jest-config':
         specifier: workspace:*
         version: link:packages/jest-config
-      '@internal/logger':
-        specifier: workspace:*
-        version: link:packages/logger
-      '@internal/storage':
-        specifier: workspace:*
-        version: link:packages/storage
       '@internal/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
-      '@internal/types':
-        specifier: workspace:*
-        version: link:packages/types
-      '@internal/utils':
-        specifier: workspace:*
-        version: link:packages/utils
       '@types/commander':
         specifier: ^2.12.2
         version: 2.12.2
