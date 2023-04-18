@@ -21,7 +21,7 @@
     "lint": "eslint . --ext .ts",
     "prepare": "husky install && pnpm run build",
     "start": "pnpm run build && node dist/index.js",
-    "test": "jest --passWithNoTests",
+    "test": "turbo run test && jest --passWithNoTests",
     "verify": "pnpm run build --noEmit && pnpm run lint && pnpm run test"
   },
   "dependencies": {

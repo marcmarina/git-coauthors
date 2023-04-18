@@ -12,6 +12,7 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@internal/tsconfig": "workspace:*"
+    "@internal/tsconfig": "workspace:*",
+    "@internal/jest-config": "workspace:*"
   }
 }
