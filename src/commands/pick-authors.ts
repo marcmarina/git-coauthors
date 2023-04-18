@@ -1,3 +1,4 @@
+import { logger } from '@internal/logger';
 import clipboardy from 'clipboardy';
 import z from 'zod';
 
@@ -10,7 +11,6 @@ import {
   RecentAuthorService,
 } from '../helpers';
 import { initialiseStorage } from '../storage';
-import { logger } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),

@@ -29,6 +29,9 @@ importers:
       '@internal/jest-config':
         specifier: workspace:*
         version: link:packages/jest-config
+      '@internal/logger':
+        specifier: workspace:*
+        version: link:packages/logger
       '@internal/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
@@ -91,6 +94,12 @@ importers:
         version: 4.9.4
 
   packages/jest-config: {}
+
+  packages/logger:
+    devDependencies:
+      '@internal/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
 
   packages/tsconfig: {}
 
