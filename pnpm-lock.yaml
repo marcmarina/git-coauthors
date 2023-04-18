@@ -26,6 +26,9 @@ importers:
         specifier: ^3.20.2
         version: 3.20.2
     devDependencies:
+      '@internal/tsconfig':
+        specifier: workspace:*
+        version: link:packages/tsconfig
       '@types/commander':
         specifier: ^2.12.2
         version: 2.12.2
@@ -80,6 +83,8 @@ importers:
       typescript:
         specifier: ^4.9.4
         version: 4.9.4
+
+  packages/tsconfig: {}
 
 packages:
 

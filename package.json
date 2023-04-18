@@ -17,7 +17,7 @@
     "git-coauthors": "dist/index.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "turbo run build && tsc",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install && pnpm run build",
     "start": "pnpm run build && node dist/index.js",
@@ -34,6 +34,7 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
+    "@internal/tsconfig": "workspace:*",
     "@types/commander": "^2.12.2",
     "@types/jest": "29.4.4",
     "@types/lodash": "^4.14.191",
