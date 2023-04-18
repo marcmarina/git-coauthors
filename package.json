@@ -34,8 +34,9 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@internal/tsconfig": "workspace:*",
     "@internal/jest-config": "workspace:*",
+    "@internal/tsconfig": "workspace:*",
+    "@internal/utils": "workspace:*",
     "@types/commander": "^2.12.2",
     "@types/jest": "29.4.4",
     "@types/lodash": "^4.14.191",

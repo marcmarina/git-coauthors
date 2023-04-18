@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 
-import { doesFileOrDirExist } from '../utils';
+import { doesFileOrDirExist } from '@internal/utils';
 
 import { JSONStore } from './json-store';
 

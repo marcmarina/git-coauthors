@@ -32,6 +32,9 @@ importers:
       '@internal/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
+      '@internal/utils':
+        specifier: workspace:*
+        version: link:packages/utils
       '@types/commander':
         specifier: ^2.12.2
         version: 2.12.2
@@ -90,6 +93,12 @@ importers:
   packages/jest-config: {}
 
   packages/tsconfig: {}
+
+  packages/utils:
+    devDependencies:
+      '@internal/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
 
 packages:
 
