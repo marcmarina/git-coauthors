@@ -13,10 +13,8 @@ jest.mock('../utils', () => ({
   doesFileOrDirExist: jest.fn(),
 }));
 
-const mockedFs = fs as jest.Mocked<typeof fs>;
-const mockedDoesFileOrDirExist = doesFileOrDirExist as jest.MockedFunction<
-  typeof doesFileOrDirExist
->;
+const mockedFs = jest.mocked(fs);
+const mockedDoesFileOrDirExist = jest.mocked(doesFileOrDirExist);
 
 describe('JSONStore', () => {
   const filename = 'some-file.json';

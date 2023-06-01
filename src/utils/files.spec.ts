@@ -5,7 +5,7 @@ import { doesFileOrDirExist } from './files';
 jest.mock('fs/promises');
 
 describe('files', () => {
-  const mockedFs = fs as jest.Mocked<typeof fs>;
+  const mockedFs = jest.mocked(fs);
 
   describe('doesFileOrDirExist', () => {
     it('returns true if the file exists', async () => {
