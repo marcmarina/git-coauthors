@@ -1,4 +1,5 @@
-import { createJSONStore, JSONStore } from '../storage';
+import { Author } from '../application';
+import { createJSONStore } from '../storage';
 
 import { createRecentAuthorService } from './recent-authors';
 
@@ -7,12 +8,14 @@ jest.mock('../storage', () => ({
   createJSONStore: jest.fn(),
 }));
 
-const mockStorage: jest.Mocked<JSONStore<any>> = {
+jest.mocked(createJSONStore).mockReturnValue({
   get: jest.fn(),
   store: jest.fn(),
   delete: jest.fn(),
-};
-jest.mocked(createJSONStore).mockReturnValue(mockStorage);
+});
+const mockStorage = jest.mocked(
+  createJSONStore<Author[]>('some-file.json', []),
+);
 
 describe('RecentAuthorService', () => {
   const recentAuthorService = createRecentAuthorService();
