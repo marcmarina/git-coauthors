@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 
 import { doesFileOrDirExist } from '../utils';
 
-import { JSONStore } from './json-store';
+import { createJSONStore } from './json-store';
 
 jest.mock('fs/promises');
 jest.mock('../utils', () => ({
@@ -20,7 +20,7 @@ describe('JSONStore', () => {
   const filename = 'some-file.json';
   const defaultValue = { foo: 'bar' };
 
-  const jsonStore = new JSONStore<any>(filename, defaultValue);
+  const jsonStore = createJSONStore<any>(filename, defaultValue);
 
   describe('get', () => {
     it('returns the default value if the file does not exist', async () => {

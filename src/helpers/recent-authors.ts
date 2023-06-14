@@ -1,7 +1,7 @@
 import path from 'path';
 
 import { Author } from '../application';
-import { JSONStore, STORAGE_DIR } from '../storage';
+import { JSONStore, STORAGE_DIR, createJSONStore } from '../storage';
 import { combineUnique, getCurrentDirName } from '../utils';
 
 /**
@@ -15,7 +15,10 @@ export class RecentAuthorService {
   private recentAuthorStore: JSONStore<Author[]>;
 
   constructor() {
-    this.recentAuthorStore = new JSONStore<Author[]>(getAuthorsFilePath(), []);
+    this.recentAuthorStore = createJSONStore<Author[]>(
+      getAuthorsFilePath(),
+      [],
+    );
   }
 
   async get(): Promise<Author[]> {

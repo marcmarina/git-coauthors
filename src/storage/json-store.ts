@@ -2,53 +2,60 @@ import fs from 'fs/promises';
 
 import { doesFileOrDirExist, logger } from '../utils';
 
-export class JSONStore<T> {
-  private filepath: string;
-  private defaultValue: T;
+export type JSONStore<T> = {
+  get: () => Promise<T>;
+  store: (data: T) => Promise<void>;
+  delete: () => Promise<void>;
+};
 
-  constructor(filepath: string, defaultValue: T) {
-    this.filepath = filepath;
-    this.defaultValue = defaultValue;
-  }
-
-  async get(): Promise<T> {
+export function createJSONStore<T>(
+  filepath: string,
+  defaultValue: T,
+): JSONStore<T> {
+  async function get(): Promise<T> {
     try {
-      const fileExists = await this.doesFileExist();
+      const fileExists = await doesFileExist();
 
       if (!fileExists) {
-        return this.defaultValue;
+        return defaultValue;
       }
 
-      const fileData = await fs.readFile(this.filepath);
+      const fileData = await fs.readFile(filepath);
 
       return JSON.parse(fileData.toString());
     } catch (error) {
       logger.error(
-        `Error while reading data in ${this.filepath}: ${error}. Returning default value.`,
+        `Error while reading data in ${filepath}: ${error}. Returning default value.`,
       );
-      return this.defaultValue;
+      return defaultValue;
     }
   }
 
-  async store(data: T): Promise<void> {
+  async function store(data: T): Promise<void> {
     try {
       const dataString = JSON.stringify(data, null, 2);
 
-      await fs.writeFile(this.filepath, dataString);
+      await fs.writeFile(filepath, dataString);
     } catch (error) {
-      logger.error(`Error while storing data in ${this.filepath}: ${error}`);
+      logger.error(`Error while storing data in ${filepath}: ${error}`);
     }
   }
 
-  async delete(): Promise<void> {
+  async function deleteStore(): Promise<void> {
     try {
-      await fs.unlink(this.filepath);
+      await fs.unlink(filepath);
     } catch (error) {
-      logger.error(`Error while deleting ${this.filepath} file: ${error}`);
+      logger.error(`Error while deleting ${filepath} file: ${error}`);
     }
   }
 
-  private async doesFileExist(): Promise<boolean> {
-    return await doesFileOrDirExist(this.filepath);
+  async function doesFileExist(): Promise<boolean> {
+    return await doesFileOrDirExist(filepath);
   }
+
+  return {
+    get,
+    store,
+    delete: deleteStore,
+  };
 }
