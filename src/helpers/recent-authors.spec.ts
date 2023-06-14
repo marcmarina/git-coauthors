@@ -1,6 +1,6 @@
 import { createJSONStore, JSONStore } from '../storage';
 
-import { RecentAuthorService } from './recent-authors';
+import { createRecentAuthorService } from './recent-authors';
 
 jest.mock('../storage', () => ({
   ...jest.requireActual('../storage'),
@@ -15,7 +15,7 @@ const mockStorage: jest.Mocked<JSONStore<any>> = {
 jest.mocked(createJSONStore).mockReturnValue(mockStorage);
 
 describe('RecentAuthorService', () => {
-  const recentAuthorService = new RecentAuthorService();
+  const recentAuthorService = createRecentAuthorService();
 
   it('returns the list of stored authors', async () => {
     mockStorage.get.mockResolvedValueOnce([
