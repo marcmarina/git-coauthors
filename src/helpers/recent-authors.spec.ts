@@ -1,24 +1,24 @@
-import { JSONStore } from '../storage';
+import { Author } from '../application';
+import { createJSONStore } from '../storage';
 
-import { RecentAuthorService } from './recent-authors';
+import { createRecentAuthorService } from './recent-authors';
 
 jest.mock('../storage', () => ({
   ...jest.requireActual('../storage'),
-  JSONStore: jest.fn(),
+  createJSONStore: jest.fn(),
 }));
 
-const mockJSONStore = JSONStore as jest.Mock;
+jest.mocked(createJSONStore).mockReturnValue({
+  get: jest.fn(),
+  store: jest.fn(),
+  delete: jest.fn(),
+});
+const mockStorage = jest.mocked(
+  createJSONStore<Author[]>('some-file.json', []),
+);
 
 describe('RecentAuthorService', () => {
-  const mockStorage = {
-    get: jest.fn(),
-    delete: jest.fn(),
-    store: jest.fn(),
-  };
-
-  mockJSONStore.mockReturnValue(mockStorage);
-
-  const recentAuthorService = new RecentAuthorService();
+  const recentAuthorService = createRecentAuthorService();
 
   it('returns the list of stored authors', async () => {
     mockStorage.get.mockResolvedValueOnce([

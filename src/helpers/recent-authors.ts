@@ -1,7 +1,7 @@
 import path from 'path';
 
 import { Author } from '../application';
-import { JSONStore, STORAGE_DIR } from '../storage';
+import { STORAGE_DIR, createJSONStore } from '../storage';
 import { combineUnique, getCurrentDirName } from '../utils';
 
 /**
@@ -11,24 +11,26 @@ function getAuthorsFilePath(): string {
   return path.join(STORAGE_DIR, `${getCurrentDirName()}.json`);
 }
 
-export class RecentAuthorService {
-  private recentAuthorStore: JSONStore<Author[]>;
+export function createRecentAuthorService() {
+  const recentAuthorStore = createJSONStore<Author[]>(getAuthorsFilePath(), []);
 
-  constructor() {
-    this.recentAuthorStore = new JSONStore<Author[]>(getAuthorsFilePath(), []);
+  async function get(): Promise<Author[]> {
+    return await recentAuthorStore.get();
   }
 
-  async get(): Promise<Author[]> {
-    return await this.recentAuthorStore.get();
+  async function add(authors: Author[]) {
+    const recentAuthors = await get();
+
+    await recentAuthorStore.store(combineUnique(authors, recentAuthors));
   }
 
-  async add(authors: Author[]) {
-    const recentAuthors = await this.get();
-
-    await this.recentAuthorStore.store(combineUnique(authors, recentAuthors));
+  async function clear() {
+    await recentAuthorStore.delete();
   }
 
-  async clear() {
-    await this.recentAuthorStore.delete();
-  }
+  return {
+    get,
+    add,
+    clear,
+  };
 }

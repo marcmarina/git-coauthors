@@ -7,7 +7,7 @@ import {
   getAuthors,
   multiselect,
   appendToLastCommit,
-  RecentAuthorService,
+  createRecentAuthorService,
 } from '../helpers';
 import { initialiseStorage } from '../storage';
 import { logger } from '../utils';
@@ -29,7 +29,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
     const { amend, print, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);
 
-    const recentAuthorService = new RecentAuthorService();
+    const recentAuthorService = createRecentAuthorService();
 
     const recents = await recentAuthorService.get();
 
