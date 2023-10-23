@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "chalk": "^4",
-    "clipboardy": "^2.0.0",
+    "clipboardy": "^4.0.0",
     "commander": "^9.3.0",
     "lodash": "^4.17.21",
     "prompts": "^2.4.2",
