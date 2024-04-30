@@ -68,15 +68,16 @@ describe('amendLastCommit', () => {
       log: () => ({
         latest: {
           message: 'Original message',
+          body: 'Original body',
         },
       }),
       commit: jest.fn(),
     });
 
-    await appendToLastCommit(' Message to append');
+    await appendToLastCommit('\n\nMessage to append');
 
     expect(mockedGit().commit).toHaveBeenCalledWith(
-      'Original message Message to append',
+      'Original message\n\nOriginal body\n\nMessage to append',
       ['--amend'],
     );
   });

@@ -31,7 +31,7 @@ async function amendLastCommit(message: string): Promise<void> {
 async function getLastCommitMessage(): Promise<string | undefined> {
   const log = await simpleGit().log({ maxCount: 1 });
 
-  return log.latest?.message;
+  return `${log.latest?.message}\n\n${log.latest?.body}`;
 }
 
 /**
