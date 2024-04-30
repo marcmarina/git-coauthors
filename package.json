@@ -19,7 +19,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint . --ext .ts",
-    "prepare": "husky install && pnpm run build",
+    "prepare": "husky install",
     "start": "pnpm run build && node dist/index.js",
     "test": "jest --passWithNoTests",
     "verify": "pnpm run build --noEmit && pnpm run lint && pnpm run test"
