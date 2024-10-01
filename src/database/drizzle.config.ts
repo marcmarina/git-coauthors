@@ -11,6 +11,6 @@ export default defineConfig({
   verbose: true,
   strict: true,
   dbCredentials: {
-    url: path.join(STORAGE_DIR, 'git-coauthors.sqlite'),
+    url: path.join(STORAGE_DIR, 'db.sqlite'),
   },
 });
