@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import {
   integer,
   primaryKey,
@@ -15,6 +16,12 @@ export const authors = sqliteTable('authors', {
   email: text('email').notNull(),
 });
 
+export const authorsRelations = relations(authors, ({ many }) => {
+  return {
+    authorsToRepositories: many(authorsToRepositories),
+  };
+});
+
 export const repositories = sqliteTable('repositories', {
   id: integer('id')
     .primaryKey({
@@ -22,6 +29,12 @@ export const repositories = sqliteTable('repositories', {
     })
     .unique(),
   name: text('name').notNull().unique(),
+});
+
+export const repositoriesRelations = relations(repositories, ({ many }) => {
+  return {
+    authorsToRepositories: many(authorsToRepositories),
+  };
 });
 
 export const authorsToRepositories = sqliteTable(
@@ -40,6 +53,22 @@ export const authorsToRepositories = sqliteTable(
     return {
       pk: primaryKey({
         columns: [t.authorId, t.repositoryId],
+      }),
+    };
+  },
+);
+
+export const authorsToRepositoriesRelations = relations(
+  authorsToRepositories,
+  ({ one }) => {
+    return {
+      author: one(authors, {
+        fields: [authorsToRepositories.authorId],
+        references: [authors.id],
+      }),
+      repository: one(repositories, {
+        fields: [authorsToRepositories.repositoryId],
+        references: [repositories.id],
       }),
     };
   },

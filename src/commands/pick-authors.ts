@@ -1,16 +1,17 @@
 import clipboardy from 'clipboardy';
+import { and, eq } from 'drizzle-orm';
 import z from 'zod';
 
 import { toCoauthor } from '../application';
+import { schema, sql } from '../database';
 import {
   assertDirIsRepo,
   getAuthors,
   multiselect,
   appendToLastCommit,
-  createRecentAuthorService,
 } from '../helpers';
 import { initialiseStorage } from '../storage';
-import { logger } from '../utils';
+import { getCurrentDirName, logger } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),
@@ -29,9 +30,29 @@ export default async function pickAuthors(options: Options): Promise<void> {
     const { amend, print, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);
 
-    const recentAuthorService = createRecentAuthorService();
+    let repository = await sql.query.repositories.findFirst({
+      where: (t) => eq(t.name, getCurrentDirName()),
+    });
 
-    const recents = await recentAuthorService.get();
+    if (!repository) {
+      const result = await sql
+        .insert(schema.repositories)
+        .values({
+          name: getCurrentDirName(),
+        })
+        .returning();
+
+      repository = result[0];
+    }
+
+    const recents = (
+      await sql.query.authorsToRepositories.findMany({
+        where: (t) => eq(t.repositoryId, repository.id),
+        with: {
+          author: true,
+        },
+      })
+    ).map((r) => r.author);
 
     const authors = await getAuthors({ sort, order, recents, limit });
 
@@ -45,7 +66,23 @@ export default async function pickAuthors(options: Options): Promise<void> {
 
     if (!chosen?.length) return;
 
-    await recentAuthorService.add(chosen);
+    for (const author of authors) {
+      let storedAuthor = await sql.query.authors.findFirst({
+        where: (t) => and(eq(t.name, author.name), eq(t.email, author.email)),
+      });
+
+      if (!storedAuthor) {
+        const newAuthor = await sql
+          .insert(schema.authors)
+          .values({
+            name: author.name,
+            email: author.email,
+          })
+          .returning();
+
+        storedAuthor = newAuthor[0];
+      }
+    }
 
     const formattedAuthors = chosen.map(toCoauthor).join('\n');
 
