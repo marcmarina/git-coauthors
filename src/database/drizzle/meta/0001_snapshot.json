@@ -1,0 +1,166 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "c7028879-644a-464d-a779-8c89c6fa45c1",
+  "prevId": "8a46b9f0-6f04-46d7-9ea3-b19c67550ff2",
+  "tables": {
+    "authors": {
+      "name": "authors",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "authors_id_unique": {
+          "name": "authors_id_unique",
+          "columns": [
+            "id"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "authors_to_repositories": {
+      "name": "authors_to_repositories",
+      "columns": {
+        "author_id": {
+          "name": "author_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "repository_id": {
+          "name": "repository_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "authors_to_repositories_author_id_unique": {
+          "name": "authors_to_repositories_author_id_unique",
+          "columns": [
+            "author_id"
+          ],
+          "isUnique": true
+        },
+        "authors_to_repositories_repository_id_unique": {
+          "name": "authors_to_repositories_repository_id_unique",
+          "columns": [
+            "repository_id"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "authors_to_repositories_author_id_authors_id_fk": {
+          "name": "authors_to_repositories_author_id_authors_id_fk",
+          "tableFrom": "authors_to_repositories",
+          "tableTo": "authors",
+          "columnsFrom": [
+            "author_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "authors_to_repositories_repository_id_repositories_id_fk": {
+          "name": "authors_to_repositories_repository_id_repositories_id_fk",
+          "tableFrom": "authors_to_repositories",
+          "tableTo": "repositories",
+          "columnsFrom": [
+            "repository_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "authors_to_repositories_author_id_repository_id_pk": {
+          "columns": [
+            "author_id",
+            "repository_id"
+          ],
+          "name": "authors_to_repositories_author_id_repository_id_pk"
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "repositories": {
+      "name": "repositories",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "repositories_id_unique": {
+          "name": "repositories_id_unique",
+          "columns": [
+            "id"
+          ],
+          "isUnique": true
+        },
+        "repositories_name_unique": {
+          "name": "repositories_name_unique",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}
