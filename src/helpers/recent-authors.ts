@@ -2,13 +2,13 @@ import path from 'path';
 
 import { Author } from '../application';
 import { STORAGE_DIR, createJSONStore } from '../storage';
-import { combineUnique, getCurrentDirName } from '../utils';
+import { combineUnique } from '../utils';
 
 /**
  * @returns The path to the file where the co-authors are stored for the current working directory.
  */
 function getAuthorsFilePath(): string {
-  return path.join(STORAGE_DIR, `${getCurrentDirName()}.json`);
+  return path.join(STORAGE_DIR, `authors.json`);
 }
 
 export function createRecentAuthorService() {
