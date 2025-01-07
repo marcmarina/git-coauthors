@@ -5,7 +5,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["pin", "patch"],
-      "automerge": true
+      "automerge": false
     }
   ],
   "ignoreDeps": ["chalk", "commander"]
