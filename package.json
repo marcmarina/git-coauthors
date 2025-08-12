@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
-    "@types/jest": "29.5.4",
+    "@types/jest": "29.5.14",
     "@types/lodash": "^4.14.191",
     "@types/node": "16",
     "@types/prompts": "^2.4.2",
@@ -44,7 +44,7 @@
     "eslint": "8.44.0",
     "eslint-plugin-import": "^2.26.0",
     "husky": "8.0.3",
-    "jest": "29.6.4",
+    "jest": "29.7.0",
     "lint-staged": "13.2.3",
     "prettier": "3.2.4",
     "sort-package-json": "^2.1.0",
