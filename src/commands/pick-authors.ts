@@ -11,7 +11,7 @@ import {
   appendToLastCommit,
 } from '../helpers';
 import { initialiseStorage } from '../storage';
-import { getCurrentDirName, logger } from '../utils';
+import { logger } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),
@@ -30,29 +30,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
     const { amend, print, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);
 
-    let repository = await sql.query.repositories.findFirst({
-      where: (t) => eq(t.name, getCurrentDirName()),
-    });
-
-    if (!repository) {
-      const result = await sql
-        .insert(schema.repositories)
-        .values({
-          name: getCurrentDirName(),
-        })
-        .returning();
-
-      repository = result[0];
-    }
-
-    const recents = (
-      await sql.query.authorsToRepositories.findMany({
-        where: (t) => eq(t.repositoryId, repository.id),
-        with: {
-          author: true,
-        },
-      })
-    ).map((r) => r.author);
+    const recents = await sql.query.authors.findMany({});
 
     const authors = await getAuthors({ sort, order, recents, limit });
 

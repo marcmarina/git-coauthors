@@ -20,6 +20,7 @@
     "build": "tsc",
     "db:generate-schema": "drizzle-kit --config=src/database/drizzle.config.ts generate",
     "db:migrate": "drizzle-kit --config=src/database/drizzle.config.ts migrate",
+    "drizzle-kit": "drizzle-kit --config=src/database/drizzle.config.ts",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install",
     "start": "pnpm run build && node dist/index.js",

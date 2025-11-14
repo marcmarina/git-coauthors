@@ -15,6 +15,13 @@
       "when": 1727793875683,
       "tag": "0001_chief_microchip",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1763110103961,
+      "tag": "0002_cuddly_stature",
+      "breakpoints": true
     }
   ]
 }
