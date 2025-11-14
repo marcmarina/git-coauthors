@@ -30,7 +30,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
     const { amend, print, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);
 
-    const recents = await sql.query.authors.findMany({});
+    const recents = await sql.query.authors.findMany();
 
     const authors = await getAuthors({ sort, order, recents, limit });
 
@@ -44,7 +44,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
 
     if (!chosen?.length) return;
 
-    for (const author of authors) {
+    for (const author of chosen) {
       let storedAuthor = await sql.query.authors.findFirst({
         where: (t) => and(eq(t.name, author.name), eq(t.email, author.email)),
       });
