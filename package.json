@@ -23,7 +23,7 @@
     "drizzle-kit": "drizzle-kit --config=src/database/drizzle.config.ts",
     "lint": "eslint . --ext .ts",
     "prepare": "husky install",
-    "start": "pnpm run build && node dist/index.js",
+    "start": "ts-node src/index.ts",
     "test": "jest --passWithNoTests",
     "verify": "pnpm run build --noEmit && pnpm run lint && pnpm run test"
   },
