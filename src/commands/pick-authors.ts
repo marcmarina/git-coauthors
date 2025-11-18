@@ -11,7 +11,6 @@ import {
   multiselect,
   appendToLastCommit,
 } from '../helpers';
-import { initialiseStorage } from '../storage';
 import { logger } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
@@ -26,8 +25,7 @@ type Options = z.infer<typeof pickAuthorsOptionsSchema>;
 export default async function pickAuthors(options: Options): Promise<void> {
   try {
     await assertDirIsRepo();
-    await initialiseStorage();
-    await migrateDatabase();
+    migrateDatabase();
 
     const { amend, print, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);

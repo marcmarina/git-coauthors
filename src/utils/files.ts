@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from 'fs';
 import path from 'path';
 
 /**
@@ -12,9 +12,9 @@ export function getCurrentDirName() {
  * @param path The path to the file or directory to check.
  * @returns Whether the file or directory exists.
  */
-export async function doesFileOrDirExist(path: string): Promise<boolean> {
+export function doesFileOrDirExist(path: string): boolean {
   try {
-    await fs.access(path);
+    fs.accessSync(path);
 
     return true;
   } catch (error) {
