@@ -1,9 +1,10 @@
 import clipboardy from 'clipboardy';
 import { and, eq } from 'drizzle-orm';
-import z from 'zod';
+import { z } from 'zod';
 
 import { toCoauthor } from '../application';
 import { schema, sql } from '../database';
+import { migrateDatabase } from '../database/migrate';
 import {
   assertDirIsRepo,
   getAuthors,
@@ -26,6 +27,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
   try {
     await assertDirIsRepo();
     await initialiseStorage();
+    await migrateDatabase();
 
     const { amend, print, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);
