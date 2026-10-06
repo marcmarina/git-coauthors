@@ -6,7 +6,7 @@ import {
   assertDirIsRepo,
   getAuthors,
   multiselect,
-  appendToLastCommit,
+  addCoauthorsToLastCommit,
   createRecentAuthorService,
 } from '../helpers';
 import { initialiseStorage } from '../storage';
@@ -54,7 +54,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
     }
 
     if (amend) {
-      await appendToLastCommit('\n\n' + formattedAuthors);
+      await addCoauthorsToLastCommit(chosen);
     }
 
     await clipboardy.write('\n' + formattedAuthors);
