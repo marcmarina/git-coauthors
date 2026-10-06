@@ -4,14 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-`git-coauthors` is a TypeScript CLI (published to npm, bin → `dist/index.js`). It lists authors from the current repo's git log, lets the user multi-select some, and copies `Co-authored-by: Name <email>` trailers to the clipboard. It can also print them (`-p`) or append them to the last commit (`-a`). See README.md for the user-facing flags.
+`git-coauthors` is a TypeScript CLI distributed as standalone binaries on GitHub Releases (not published to npm). It lists authors from the current repo's git log, lets the user multi-select some, and copies `Co-authored-by: Name <email>` trailers to the clipboard. It can also print them (`-p`) or append them to the last commit (`-a`). See README.md for the user-facing flags.
 
 ## Commands
 
 The Bun version is pinned in `.tool-versions`. Use Bun for installing, running and testing.
 
-- `bun run build` — bundle into `dist/index.js` for Node (the npm `bin`)
-- `bun run compile` — build a standalone native binary at `dist/git-coauthors`
+- `bun run build` — build a standalone native binary at `dist/git-coauthors`
 - `bun start` — run the CLI from source against the current directory (it must be a git repo)
 - `bun run lint` — ESLint over `.ts` files
 - `bun run typecheck` — `tsc` (no emit; Bun handles the build)

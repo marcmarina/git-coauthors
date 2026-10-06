@@ -1,4 +1,4 @@
-#! /usr/bin/env node
+#!/usr/bin/env bun
 import { Option, program } from 'commander';
 
 import packageJson from '../package.json';
