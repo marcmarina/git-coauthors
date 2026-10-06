@@ -1,10 +1,10 @@
-import { simpleGit } from 'simple-git';
+import { beforeEach, describe, expect, it, mock } from 'bun:test';
 
 import { appendToLastCommit, getAuthors } from './git';
 
-jest.mock('simple-git');
+const mockedGit = mock();
 
-const mockedGit = simpleGit as jest.Mock;
+mock.module('simple-git', () => ({ simpleGit: mockedGit }));
 
 const SAMPLE_LOG = {
   all: [
@@ -37,7 +37,7 @@ const SAMPLE_LOG = {
 
 describe('getAuthors', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    mockedGit.mockClear();
   });
 
   it('it should return a list of sorted unique authors', async () => {
@@ -64,6 +64,8 @@ describe('getAuthors', () => {
 
 describe('amendLastCommit', () => {
   it("appends the given message to the last commit's message", async () => {
+    const commit = mock();
+
     mockedGit.mockReturnValue({
       log: () => ({
         latest: {
@@ -71,12 +73,12 @@ describe('amendLastCommit', () => {
           body: 'Original body',
         },
       }),
-      commit: jest.fn(),
+      commit,
     });
 
     await appendToLastCommit('\n\nMessage to append');
 
-    expect(mockedGit().commit).toHaveBeenCalledWith(
+    expect(commit).toHaveBeenCalledWith(
       'Original message\n\nOriginal body\n\nMessage to append',
       ['--amend'],
     );

@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check whether this version is already released
+        id: version
+        run: |
+          VERSION=$(jq -r .version package.json)
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: oven-sh/setup-bun@v2
+        if: steps.version.outputs.exists != 'true'
+        with:
+          bun-version-file: .tool-versions
+
+      - name: Verify
+        if: steps.version.outputs.exists != 'true'
+        run: |
+          bun install --frozen-lockfile
+          bun run verify
+
+      - name: Build binaries
+        if: steps.version.outputs.exists != 'true'
+        run: |
+          mkdir -p release
+          for target in linux-x64 linux-arm64 darwin-x64 darwin-arm64 windows-x64; do
+            ext=""; [[ $target == windows-* ]] && ext=".exe"
+            bun build src/index.ts --compile --minify \
+              --target=bun-$target \
+              --outfile release/git-coauthors-$target$ext
+          done
+          cd release && sha256sum * > checksums.txt
+
+      - name: Create GitHub release
+        if: steps.version.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" release/* \
+            --target "$GITHUB_SHA" \
+            --title "${{ steps.version.outputs.tag }}" \
+            --generate-notes

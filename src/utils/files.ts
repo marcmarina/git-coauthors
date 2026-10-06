@@ -17,7 +17,7 @@ export async function doesFileOrDirExist(path: string): Promise<boolean> {
     await fs.access(path);
 
     return true;
-  } catch (error) {
+  } catch {
     return false;
   }
 }

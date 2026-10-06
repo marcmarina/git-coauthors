@@ -1,20 +1,25 @@
-import fs from 'fs/promises';
+import { describe, expect, it, mock } from 'bun:test';
 
-import { doesFileOrDirExist } from '../utils';
+import * as utils from '../utils';
 
 import { createJSONStore } from './json-store';
 
-jest.mock('fs/promises');
-jest.mock('../utils', () => ({
-  ...jest.requireActual('../utils'),
-  logger: {
-    error: jest.fn(),
-  },
-  doesFileOrDirExist: jest.fn(),
-}));
+const mockedFs = {
+  readFile: mock(),
+  writeFile: mock(),
+  unlink: mock(),
+};
+const mockedDoesFileOrDirExist = mock();
+const actualUtils = { ...utils };
 
-const mockedFs = jest.mocked(fs);
-const mockedDoesFileOrDirExist = jest.mocked(doesFileOrDirExist);
+mock.module('fs/promises', () => ({ default: mockedFs }));
+mock.module('../utils', () => ({
+  ...actualUtils,
+  logger: {
+    error: mock(),
+  },
+  doesFileOrDirExist: mockedDoesFileOrDirExist,
+}));
 
 describe('JSONStore', () => {
   const filename = 'some-file.json';

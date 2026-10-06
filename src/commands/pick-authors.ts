@@ -1,5 +1,5 @@
 import clipboardy from 'clipboardy';
-import z from 'zod';
+import { z } from 'zod';
 
 import { toCoauthor } from '../application';
 import {

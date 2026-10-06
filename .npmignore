@@ -6,7 +6,6 @@ tsconfig.json
 
 .eslintrc
 
-jest.config.js
 
 .prettierrc
 .editorconfig
@@ -16,3 +15,5 @@ jest.config.js
 .tool-versions
 
 renovate.json
+
+bun.lock

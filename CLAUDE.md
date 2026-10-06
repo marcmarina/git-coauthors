@@ -8,13 +8,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-Tooling versions are pinned in `.tool-versions` (Node 16, pnpm 8). Use pnpm.
+The Bun version is pinned in `.tool-versions`. Use Bun for installing, running and testing.
 
-- `pnpm build` — compile with `tsc` into `dist/`
-- `pnpm start` — build and run the CLI against the current directory (it must be a git repo)
-- `pnpm lint` — ESLint over `.ts` files
-- `pnpm test` — Jest (ts-jest); single file: `pnpm test src/helpers/git.spec.ts`; single test: `pnpm test -t "<test name>"`
-- `pnpm verify` — typecheck + lint + test; runs on the husky `pre-push` hook
+- `bun run build` — bundle into `dist/index.js` for Node (the npm `bin`)
+- `bun run compile` — build a standalone native binary at `dist/git-coauthors`
+- `bun start` — run the CLI from source against the current directory (it must be a git repo)
+- `bun run lint` — ESLint over `.ts` files
+- `bun run typecheck` — `tsc` (no emit; Bun handles the build)
+- `bun test` — `bun:test`; single file: `bun test src/helpers/git.spec.ts`; single test: `bun test -t "<test name>"`
+- `bun run verify` — typecheck + lint + test; runs on the husky `pre-push` hook
 
 The `pre-commit` hook runs lint-staged (`eslint --fix` + `prettier --write` on TS/JS, `sort-package-json` on package.json).
 
@@ -29,11 +31,15 @@ The `pre-commit` hook runs lint-staged (`eslint --fix` + `prettier --write` on T
 
 Author ordering: when `--sort` is not given, recents are prepended to the log's authors and deduplicated, so recent picks float to the top. When `--sort` is given, recents are ignored for ordering.
 
-Each directory exposes its public API through an `index.ts` barrel; import from the directory (e.g. `'../utils'`), which is also what tests mock with `jest.mock('../utils', ...)`.
+Each directory exposes its public API through an `index.ts` barrel; import from the directory (e.g. `'../utils'`), which is also what tests mock with `mock.module('../utils', ...)`.
 
 ## Conventions
 
 - `no-console` is an ESLint error; use `logger` from `src/utils`.
 - `import/order` is enforced: alphabetized, with blank lines between groups.
-- Tests are colocated as `*.spec.ts` next to the source file.
-- The build targets CommonJS, and `chalk@4` and `clipboardy@2` are the last majors of those packages that support it. Upgrading them to ESM-only versions would break the build.
+- Tests are colocated as `*.spec.ts` next to the source file and import from `bun:test`. Bun has no automocking or `requireActual`: pass `mock.module` an explicit factory, and spread a copy of the real module (taken before mocking) to keep its other exports. Module mocks are shared across test files in one run, so each spec should also pass on its own.
+- `it.each` takes arrays of rows; Jest's tagged-template tables aren't supported.
+
+## Releases
+
+`.github/workflows/release.yml` runs on every push to `main`. If no `v<version>` tag exists for the version in `package.json`, it verifies, compiles binaries for linux/darwin/windows and creates a GitHub release with them. To release, bump `version` in `package.json` in the PR being merged.

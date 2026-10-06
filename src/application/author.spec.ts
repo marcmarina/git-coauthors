@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'bun:test';
+
 import { Author, isAuthor, toCoauthor } from './author';
 
 const author: Author = {
