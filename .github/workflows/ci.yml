@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .tool-versions
+
+      - name: Verify
+        run: |
+          bun install --frozen-lockfile
+          bun run verify
+
+      - name: Build archives
+        run: bun run package
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: git-coauthors-${{ github.event.pull_request.head.sha }}
+          path: dist/release/
+          retention-days: 7
