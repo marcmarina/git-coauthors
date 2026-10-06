@@ -10,6 +10,7 @@ This is a CLI tool that helps you pick co-authors for your git commits.
   - [Limit](#limit)
   - [Sorting](#sorting)
   - [Print](#print)
+  - [No copy](#no-copy)
   - [Amend](#amend)
 
 ## Installation
@@ -75,7 +76,11 @@ The `-o, --order <direction>` flag just controls the sorting direction: `asc, de
 
 ### Print
 
-The `-p, --print` flag outputs the chosen authors to the console. This can be useful if for some reason the program can't manage to add them to your clipboard automatically.
+The `-p, --print` flag outputs the chosen authors to the console instead of copying them to your clipboard. Use it when the clipboard isn't available, or to pipe the trailers into another command.
+
+### No copy
+
+The `--no-copy` flag skips copying the chosen authors to your clipboard. It's mostly useful together with [`--amend`](#amend).
 
 ### Amend
 
