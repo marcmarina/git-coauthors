@@ -1,6 +1,6 @@
 import { simpleGit } from 'simple-git';
 
-import { Author } from '../application';
+import { Author, toCoauthor } from '../application';
 import { logger, sortBy, unique } from '../utils';
 
 /**
@@ -14,24 +14,28 @@ export async function assertDirIsRepo(): Promise<void> {
 }
 
 /**
- * @param message Message to append to the last commit.
+ * Adds the authors as Co-authored-by trailers to the last commit. Only the
+ * message changes: staged changes are left out of the commit (`--only`), and
+ * authors already in the trailers aren't added again.
+ * @param authors Authors to add as co-authors.
  */
-export async function appendToLastCommit(message: string): Promise<void> {
-  const originalMessage = await getLastCommitMessage();
+export async function addCoauthorsToLastCommit(
+  authors: Author[],
+): Promise<void> {
+  const trailers = authors.flatMap((author) => [
+    '--trailer',
+    toCoauthor(author),
+  ]);
 
-  if (originalMessage) {
-    await amendLastCommit(`${originalMessage}${message}`);
-  }
-}
-
-async function amendLastCommit(message: string): Promise<void> {
-  await simpleGit().commit(message, ['--amend']);
-}
-
-async function getLastCommitMessage(): Promise<string | undefined> {
-  const log = await simpleGit().log({ maxCount: 1 });
-
-  return `${log.latest?.message}\n\n${log.latest?.body}`;
+  await simpleGit().raw([
+    '-c',
+    'trailer.ifExists=addIfDifferent',
+    'commit',
+    '--amend',
+    '--only',
+    '--no-edit',
+    ...trailers,
+  ]);
 }
 
 /**

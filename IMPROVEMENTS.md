@@ -4,14 +4,14 @@ Tick items off as they're fixed.
 
 ## Bugs and correctness
 
-- [ ] **`--amend` also commits anything you've staged.** `appendToLastCommit` runs `git commit --amend -m …`, which includes whatever is in the index, so staged changes quietly get folded into the last commit. Refuse when the index is dirty, or warn first.
-- [ ] **Amending rebuilds the commit message instead of adding to it.** `getLastCommitMessage` (`src/helpers/git.ts`) glues together simple-git's `message` (`%s`) and `body` (`%b`):
+- [x] **`--amend` also commits anything you've staged.** `appendToLastCommit` runs `git commit --amend -m …`, which includes whatever is in the index, so staged changes quietly get folded into the last commit. Refuse when the index is dirty, or warn first.
+- [x] **Amending rebuilds the commit message instead of adding to it.** `getLastCommitMessage` (`src/helpers/git.ts`) glues together simple-git's `message` (`%s`) and `body` (`%b`):
   - A subject that wraps over several lines gets joined into one.
   - If the commit already has `Co-authored-by` trailers, the new ones land in a separate paragraph, so git no longer treats the old ones as trailers.
   - With no commits, `log.latest` is undefined, so the message becomes `"undefined\n\nundefined"`.
 
   Use `git commit --amend --no-edit --trailer "Co-authored-by: …"` (git ≥ 2.32), which appends correctly and skips duplicates.
-- [ ] **`--amend` is passed in the wrong argument slot.** `amendLastCommit` passes it as simple-git's `files` argument, not `options`. It only works because both end up appended to the command. Fix along with the item above.
+- [x] **`--amend` is passed in the wrong argument slot.** `amendLastCommit` passes it as simple-git's `files` argument, not `options`. It only works because both end up appended to the command. Fix along with the item above.
 - [ ] **Exit codes are wrong.** "Not a git repository" calls `process.exit(0)`, and errors caught in `pickAuthors` are logged but the process still exits 0.
 - [ ] **Errors go to stdout.** `logger.error` uses `console.log`; it should use `console.error`. `useUnknownInCatchVariables: false` is also what lets `logger.error(err)` typecheck with a non-string `err`.
 - [ ] **`--print` doesn't work as the clipboard fallback the README describes.** `clipboardy.write` still runs after printing, so on Linux without xsel/wl-clipboard you get the output and then an error. Skip the clipboard when `-p` is set, or catch clipboard failures and print instead.

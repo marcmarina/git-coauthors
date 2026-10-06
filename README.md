@@ -79,6 +79,6 @@ The `-p, --print` flag outputs the chosen authors to the console. This can be us
 
 ### Amend
 
-The `-a, --amend` flag will append the chosen authors to the last commit in the current repository.
+The `-a, --amend` flag adds the chosen authors as `Co-authored-by` trailers to the last commit in the current repository. It needs git 2.32 or later.
 
-> Note that if you run the command after having amended once, it won't replace the existing coauthors, it will just add new ones at the end.
+Only the commit message changes: anything you've staged stays staged and isn't added to the commit. Authors already in the commit's trailers aren't added again, so running it twice is safe; existing co-authors are never removed.

@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, mock } from 'bun:test';
 
-import { appendToLastCommit, getAuthors } from './git';
+import { addCoauthorsToLastCommit, getAuthors } from './git';
 
 const mockedGit = mock();
 
@@ -62,25 +62,28 @@ describe('getAuthors', () => {
   });
 });
 
-describe('amendLastCommit', () => {
-  it("appends the given message to the last commit's message", async () => {
-    const commit = mock();
+describe('addCoauthorsToLastCommit', () => {
+  it('amends only the message, adding each author as a trailer', async () => {
+    const raw = mock();
 
-    mockedGit.mockReturnValue({
-      log: () => ({
-        latest: {
-          message: 'Original message',
-          body: 'Original body',
-        },
-      }),
-      commit,
-    });
+    mockedGit.mockReturnValue({ raw });
 
-    await appendToLastCommit('\n\nMessage to append');
+    await addCoauthorsToLastCommit([
+      { name: 'Hoid', email: 'hoid@cosmere.com' },
+      { name: 'Dalinar Kholin', email: 'dalinar@kholin.com' },
+    ]);
 
-    expect(commit).toHaveBeenCalledWith(
-      'Original message\n\nOriginal body\n\nMessage to append',
-      ['--amend'],
-    );
+    expect(raw).toHaveBeenCalledWith([
+      '-c',
+      'trailer.ifExists=addIfDifferent',
+      'commit',
+      '--amend',
+      '--only',
+      '--no-edit',
+      '--trailer',
+      'Co-authored-by: Hoid <hoid@cosmere.com>',
+      '--trailer',
+      'Co-authored-by: Dalinar Kholin <dalinar@kholin.com>',
+    ]);
   });
 });
