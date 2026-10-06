@@ -1,6 +1,6 @@
 {
   "name": "git-coauthors",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "keywords": [
     "git",
@@ -28,7 +28,7 @@
     "commander": "^9.3.0",
     "lodash": "^4.17.21",
     "prompts": "^2.4.2",
-    "simple-git": "^3.16.1",
+    "simple-git": "^4.0.2",
     "zod": "^3.20.2"
   },
   "devDependencies": {
