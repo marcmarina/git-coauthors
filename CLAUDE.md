@@ -11,6 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The Bun version is pinned in `.tool-versions`. Use Bun for installing, running and testing.
 
 - `bun run build` — build a standalone native binary at `dist/git-coauthors`
+- `bun run package` — build every release target and package them as archives in `dist/release` (`scripts/package-release.sh`)
 - `bun start` — run the CLI from source against the current directory (it must be a git repo)
 - `bun run lint` — ESLint over `.ts` files
 - `bun run typecheck` — `tsc` (no emit; Bun handles the build)
@@ -41,4 +42,6 @@ Each directory exposes its public API through an `index.ts` barrel; import from 
 
 ## Releases
 
-`.github/workflows/release.yml` runs on every push to `main`. If no `v<version>` tag exists for the version in `package.json`, it verifies, compiles binaries for linux/darwin/windows, packages each as an archive containing a single `git-coauthors` executable (`.tar.gz`, or `.zip` for Windows, since `.tar.gz` keeps the executable bit) and creates a GitHub release with them. To release, bump `version` in `package.json` in the PR being merged.
+Work happens on short-lived branches merged into `main` through PRs; there is no `develop` branch. `.github/workflows/ci.yml` runs `verify` and `bun run package` on every PR to `main`, and uploads the archives as a workflow artifact.
+
+`.github/workflows/release.yml` runs on every push to `main`. If no `v<version>` tag exists for the version in `package.json`, it verifies, runs `bun run package` and creates a GitHub release with the archives. Each archive holds a single `git-coauthors` executable: `.tar.gz` for macOS and Linux (it keeps the executable bit), `.zip` for Windows. Merges that don't change the version publish nothing; to release, bump `version` in `package.json` in the PR being merged.

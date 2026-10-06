@@ -15,6 +15,7 @@
   "scripts": {
     "build": "bun build src/index.ts --compile --minify --outfile dist/git-coauthors",
     "lint": "eslint . --ext .ts",
+    "package": "bash scripts/package-release.sh",
     "prepare": "husky install",
     "start": "bun src/index.ts",
     "test": "bun test",

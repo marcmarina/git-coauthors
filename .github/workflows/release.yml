@@ -37,29 +37,14 @@ jobs:
 
       - name: Build archives
         if: steps.version.outputs.exists != 'true'
-        run: |
-          mkdir -p release
-          for target in linux-x64 linux-arm64 darwin-x64 darwin-arm64 windows-x64; do
-            ext=""; [[ $target == windows-* ]] && ext=".exe"
-            mkdir -p build/$target
-            bun build src/index.ts --compile --minify \
-              --target=bun-$target \
-              --outfile build/$target/git-coauthors$ext
-            # tar.gz keeps the executable bit; Windows doesn't need it, so zip
-            if [[ $target == windows-* ]]; then
-              (cd build/$target && zip -q ../../release/git-coauthors-$target.zip git-coauthors$ext)
-            else
-              tar -czf release/git-coauthors-$target.tar.gz -C build/$target git-coauthors
-            fi
-          done
-          cd release && sha256sum * > checksums.txt
+        run: bun run package
 
       - name: Create GitHub release
         if: steps.version.outputs.exists != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${{ steps.version.outputs.tag }}" release/* \
+          gh release create "${{ steps.version.outputs.tag }}" dist/release/* \
             --target "$GITHUB_SHA" \
             --title "${{ steps.version.outputs.tag }}" \
             --generate-notes
