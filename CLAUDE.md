@@ -41,4 +41,4 @@ Each directory exposes its public API through an `index.ts` barrel; import from 
 
 ## Releases
 
-`.github/workflows/release.yml` runs on every push to `main`. If no `v<version>` tag exists for the version in `package.json`, it verifies, compiles binaries for linux/darwin/windows and creates a GitHub release with them. To release, bump `version` in `package.json` in the PR being merged.
+`.github/workflows/release.yml` runs on every push to `main`. If no `v<version>` tag exists for the version in `package.json`, it verifies, compiles binaries for linux/darwin/windows, packages each as an archive containing a single `git-coauthors` executable (`.tar.gz`, or `.zip` for Windows, since `.tar.gz` keeps the executable bit) and creates a GitHub release with them. To release, bump `version` in `package.json` in the PR being merged.
