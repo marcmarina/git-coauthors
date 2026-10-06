@@ -1,9 +1,9 @@
-#! /usr/bin/env node
+#!/usr/bin/env bun
 import { Option, program } from 'commander';
 
-import { pickAuthors } from './commands';
+import packageJson from '../package.json';
 
-const packageJson = require('../package.json');
+import { pickAuthors } from './commands';
 
 program.version(packageJson.version).description('Git co-author picker.');
 

@@ -1,21 +1,20 @@
-import { Author } from '../application';
-import { createJSONStore } from '../storage';
+import { describe, expect, it, mock } from 'bun:test';
+
+import * as storage from '../storage';
 
 import { createRecentAuthorService } from './recent-authors';
 
-jest.mock('../storage', () => ({
-  ...jest.requireActual('../storage'),
-  createJSONStore: jest.fn(),
-}));
+const mockStorage = {
+  get: mock(),
+  store: mock(),
+  delete: mock(),
+};
+const actualStorage = { ...storage };
 
-jest.mocked(createJSONStore).mockReturnValue({
-  get: jest.fn(),
-  store: jest.fn(),
-  delete: jest.fn(),
-});
-const mockStorage = jest.mocked(
-  createJSONStore<Author[]>('some-file.json', []),
-);
+mock.module('../storage', () => ({
+  ...actualStorage,
+  createJSONStore: () => mockStorage,
+}));
 
 describe('RecentAuthorService', () => {
   const recentAuthorService = createRecentAuthorService();
