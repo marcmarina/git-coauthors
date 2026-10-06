@@ -17,7 +17,12 @@ program
     'Limit the number of commits to fetch. Useful for repos with a large history.',
     parseInt,
   )
-  .option('-p, --print', 'Print the chosen authors to the console', false)
+  .option(
+    '-p, --print',
+    'Print the chosen authors to the console instead of copying them to the clipboard',
+    false,
+  )
+  .option('--no-copy', "Don't copy the chosen authors to the clipboard")
   .addOption(
     new Option('-s, --sort <by>', 'Sort by').choices(['email', 'name']),
   )

@@ -14,6 +14,7 @@ import { logger } from '../utils';
 
 const pickAuthorsOptionsSchema = z.object({
   print: z.boolean(),
+  copy: z.boolean(),
   sort: z.enum(['name', 'email']).optional(),
   order: z.enum(['asc', 'desc']),
   limit: z.number().optional(),
@@ -26,7 +27,7 @@ export default async function pickAuthors(options: Options): Promise<void> {
     await assertDirIsRepo();
     await initialiseStorage();
 
-    const { amend, print, sort, order, limit } =
+    const { amend, print, copy, sort, order, limit } =
       pickAuthorsOptionsSchema.parse(options);
 
     const recentAuthorService = createRecentAuthorService();
@@ -57,8 +58,11 @@ export default async function pickAuthors(options: Options): Promise<void> {
       await addCoauthorsToLastCommit(chosen);
     }
 
-    await clipboardy.write('\n' + formattedAuthors);
+    if (copy && !print) {
+      await clipboardy.write('\n' + formattedAuthors);
+    }
   } catch (err) {
-    logger.error(err);
+    logger.error(err instanceof Error ? err.message : String(err));
+    process.exitCode = 1;
   }
 }

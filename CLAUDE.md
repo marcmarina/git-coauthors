@@ -37,7 +37,7 @@ Each directory exposes its public API through an `index.ts` barrel; import from 
 
 - `no-console` is an ESLint error; use `logger` from `src/utils`.
 - `import/order` is enforced: alphabetized, with blank lines between groups.
-- Tests are colocated as `*.spec.ts` next to the source file and import from `bun:test`. Bun has no automocking or `requireActual`: pass `mock.module` an explicit factory, and spread a copy of the real module (taken before mocking) to keep its other exports. Module mocks are shared across test files in one run, so each spec should also pass on its own.
+- Tests are colocated as `*.spec.ts` next to the source file and import from `bun:test`. Bun has no automocking or `requireActual`: pass `mock.module` an explicit factory, and spread a copy of the real module (taken before mocking) to keep its other exports. Module mocks are shared across test files in one run and can't be undone, so each spec should also pass on its own. `mock.module` on one of our own barrels also replaces those exports for every other spec in the run; to stub our own modules, use `spyOn` on the barrel's namespace (or on an exported object like `logger`) and `mockRestore()` the spies in `afterAll`.
 - `it.each` takes arrays of rows; Jest's tagged-template tables aren't supported.
 
 ## Releases
