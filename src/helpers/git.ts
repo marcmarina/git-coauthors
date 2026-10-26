@@ -1,15 +1,15 @@
 import { simpleGit } from 'simple-git';
 
 import { Author, toCoauthor } from '../application';
-import { logger, sortBy, unique } from '../utils';
+import { sortBy, unique } from '../utils';
 
 /**
- * Function that checks if the current directory is a git repository. If not, it exits the process.
+ * Function that checks if the current directory is a git repository.
+ * @throws If it isn't.
  */
 export async function assertDirIsRepo(): Promise<void> {
   if (!(await simpleGit().checkIsRepo())) {
-    logger.error('The current directory is not a git repository.');
-    process.exit(0);
+    throw new Error('The current directory is not a git repository.');
   }
 }
 

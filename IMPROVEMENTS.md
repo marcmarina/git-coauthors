@@ -12,9 +12,9 @@ Tick items off as they're fixed.
 
   Use `git commit --amend --no-edit --trailer "Co-authored-by: …"` (git ≥ 2.32), which appends correctly and skips duplicates.
 - [x] **`--amend` is passed in the wrong argument slot.** `amendLastCommit` passes it as simple-git's `files` argument, not `options`. It only works because both end up appended to the command. Fix along with the item above.
-- [ ] **Exit codes are wrong.** "Not a git repository" calls `process.exit(0)`, and errors caught in `pickAuthors` are logged but the process still exits 0.
-- [ ] **Errors go to stdout.** `logger.error` uses `console.log`; it should use `console.error`. `useUnknownInCatchVariables: false` is also what lets `logger.error(err)` typecheck with a non-string `err`.
-- [ ] **`--print` doesn't work as the clipboard fallback the README describes.** `clipboardy.write` still runs after printing, so on Linux without xsel/wl-clipboard you get the output and then an error. Skip the clipboard when `-p` is set, or catch clipboard failures and print instead.
+- [x] **Exit codes are wrong.** "Not a git repository" calls `process.exit(0)`, and errors caught in `pickAuthors` are logged but the process still exits 0.
+- [x] **Errors go to stdout.** `logger.error` uses `console.log`; it should use `console.error`. `useUnknownInCatchVariables: false` is also what lets `logger.error(err)` typecheck with a non-string `err`.
+- [x] **`--print` doesn't work as the clipboard fallback the README describes.** `clipboardy.write` still runs after printing, so on Linux without xsel/wl-clipboard you get the output and then an error. Skip the clipboard when `-p` is set, or catch clipboard failures and print instead.
 
 ## Author list quality
 
@@ -27,7 +27,7 @@ Tick items off as they're fixed.
 ## Small features
 
 - [ ] A `--clear-recents` flag (or command). `recentAuthorService.clear()` already exists but nothing in the CLI calls it.
-- [ ] A `--no-copy` flag, so `-p` can be used cleanly in scripts.
+- [x] A `--no-copy` flag, so `-p` can be used cleanly in scripts.
 
 ## Dependencies and tooling
 
@@ -39,6 +39,7 @@ Tick items off as they're fixed.
 
 ## Tests and release
 
-- [ ] **Add a spec for `pick-authors.ts`.** It holds the whole flow and the amend/print/clipboard branching where most of the bugs above live. `prompt.ts` has no spec either.
+- [x] **Add a spec for `pick-authors.ts`.** It holds the whole flow and the amend/print/clipboard branching where most of the bugs above live.
+- [ ] **Add a spec for `prompt.ts`.**
 - [ ] **Smoke-test the built binary in CI**, e.g. run `dist/build/linux-x64/git-coauthors --version`, to catch bundling problems in the compiled binary.
 - [ ] **Easier distribution:** a Homebrew tap or an `install.sh` instead of the README's curl snippet.

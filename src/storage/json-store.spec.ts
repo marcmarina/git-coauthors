@@ -1,4 +1,4 @@
-import { describe, expect, it, mock } from 'bun:test';
+import { afterAll, describe, expect, it, mock, spyOn } from 'bun:test';
 
 import * as utils from '../utils';
 
@@ -9,19 +9,21 @@ const mockedFs = {
   writeFile: mock(),
   unlink: mock(),
 };
-const mockedDoesFileOrDirExist = mock();
-const actualUtils = { ...utils };
 
 mock.module('fs/promises', () => ({ default: mockedFs }));
-mock.module('../utils', () => ({
-  ...actualUtils,
-  logger: {
-    error: mock(),
-  },
-  doesFileOrDirExist: mockedDoesFileOrDirExist,
-}));
+
+// Spies rather than mock.module, so they can be restored for other spec files
+const mockedDoesFileOrDirExist = spyOn(utils, 'doesFileOrDirExist');
+const mockedLoggerError = spyOn(utils.logger, 'error').mockImplementation(
+  () => {},
+);
 
 describe('JSONStore', () => {
+  afterAll(() => {
+    mockedDoesFileOrDirExist.mockRestore();
+    mockedLoggerError.mockRestore();
+  });
+
   const filename = 'some-file.json';
   const defaultValue = { foo: 'bar' };
 
